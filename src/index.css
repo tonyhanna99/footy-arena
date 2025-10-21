@@ -42,6 +42,47 @@ body {
 
 .sidebar {
   width: 280px;
+  bac  .games-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Mobile form alignment - force left alignment */
+  .card .form-group {
+    text-align: left !important;
+  }
+
+  .card .form-label {
+    text-align: left !important;
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+
+  .card .form-row {
+    align-items: flex-start !important;
+    text-align: left !important;
+  }
+
+  .card .form-row .form-group {
+    text-align: left !important;
+  }
+
+  .card .form-row .form-group .form-label {
+    text-align: left !important;
+  }
+
+  /* Ensure touch targets are large enough */
+  .btn {
+    min-height: 44px;
+  }
+
+  /* Adjust home page logo for mobile */
+  .home-header img {
+    height: 8rem !important;
+  }
+}
+
+.sidebar {
+  width: 280px;
   background-color: var(--surface);
   border-right: 1px solid var(--border);
   display: flex;
@@ -88,6 +129,27 @@ body {
 
 .sidebar-toggle-border {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.sidebar-toggle-border {
+  position: absolute;
+  top: 4%;
+  right: -15px;
+  transform: translateY(-50%);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: var(--accent);
+  color: white;
+  border: 2px solid var(--border);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: bold;
+  z-index: 20;
+  transition: all 0.2s ease;
 }
 
 .sidebar-toggle-border:hover {
@@ -487,61 +549,182 @@ body {
   line-height: 1.6;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
+/* Mobile Sidebar Design */
+@media screen and (max-width: 768px) {
   .app-layout {
-    flex-direction: column;
+    flex-direction: row; /* Keep sidebar layout */
+    position: relative;
   }
 
-  .sidebar,
+  /* Override any center alignment on mobile - nuclear option */
+  .card form {
+    text-align: left !important;
+  }
+  
+  .card form * {
+    text-align: left !important;
+  }
+
+  /* Specific targeting for form labels */
+  label.form-label {
+    text-align: left !important;
+    display: block !important;
+  }
+
+  /* Target specific form elements */
+  .form-group label {
+    text-align: left !important;
+  }
+
+  .form-row .form-group label {
+    text-align: left !important;
+  }
+
+  /* Target by ID if needed */
+  #player-count + label,
+  #imposter-count + label,
+  label[for="player-count"],
+  label[for="imposter-count"] {
+    text-align: left !important;
+  }
+
+  /* Collapsed sidebar on mobile - show only toggle */
   .sidebar.collapsed {
-    width: 100%;
-    height: auto;
+    width: 0 !important;
+    position: absolute;
+    z-index: 10;
+    background-color: transparent !important;
     border-right: none;
-    border-bottom: 1px solid var(--border);
+    overflow: visible;
   }
 
-  .sidebar-header {
-    padding: 1rem;
-  }
-
-  .sidebar-header h1 {
-    font-size: 1.25rem;
-  }
-
-  .sidebar-nav {
-    padding: 0 1rem 1rem;
-  }
-
-  .sidebar-nav ul {
-    display: flex;
-    gap: 0.5rem;
-    overflow-x: auto;
-    padding-bottom: 0.5rem;
-  }
-
-  .sidebar-nav li {
-    margin-bottom: 0;
-    flex-shrink: 0;
-  }
-
-  .sidebar-nav a {
-    white-space: nowrap;
-    padding: 0.5rem 1rem;
-  }
-
-  .sidebar-footer {
+  .sidebar.collapsed .sidebar-header,
+  .sidebar.collapsed .sidebar-nav,
+  .sidebar.collapsed .sidebar-footer {
     display: none;
   }
 
-  /* Hide toggle button on mobile since sidebar becomes horizontal */
-  .sidebar-toggle-border {
+  /* Expanded sidebar on mobile - full screen overlay */
+  .sidebar.expanded {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    background-color: var(--surface);
+    border-right: none;
+  }
+
+  /* Add backdrop overlay effect */
+  .sidebar.expanded::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: -1;
+  }
+
+  .sidebar.expanded .sidebar-header {
+    padding: 1.5rem;
+  }
+
+  .sidebar.expanded .sidebar-nav {
+    padding: 2rem 1rem;
+    margin-top: -4rem;
+  }
+
+  .sidebar.expanded .sidebar-nav ul {
+    display: block;
+  }
+
+  .sidebar.expanded .sidebar-nav li {
+    margin-bottom: 0.75rem;
+  }
+
+  .sidebar.expanded .sidebar-nav a {
+    padding: 1rem 1.5rem;
+    font-size: 1.25rem;
+    font-weight: 500;
+    border-radius: 0;
+    text-align: left;
+    justify-content: flex-start;
+  }
+
+  .sidebar.expanded .sidebar-nav a:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+
+  /* Hamburger menu button when sidebar is collapsed */
+  .sidebar.collapsed .sidebar-toggle-border {
+    display: flex !important;
+    position: fixed !important;
+    top: 3rem !important;
+    left: 1rem !important;
+    z-index: 1001 !important;
+    background-color: transparent !important;
+    width: 48px !important;
+    height: 48px !important;
+    border-radius: 8px !important;
+    border: none !important;
+    color: var(--text) !important;
+    font-size: 20px !important;
+    font-weight: normal !important;
+  }
+
+  /* Toggle button when sidebar is expanded */
+  /* Close X button when sidebar is expanded */
+  .sidebar.expanded .sidebar-toggle-border {
+    display: flex !important;
+    position: absolute !important;
+    top: 3rem !important;
+    right: 1rem !important;
+    z-index: 1002 !important;
+    background-color: transparent !important;
+    width: 48px !important;
+    height: 48px !important;
+    border-radius: 8px !important;
+    border: none !important;
+    color: var(--text) !important;
+    font-size: 24px !important;
+    font-weight: normal !important;
+    transition: all 0.2s ease !important;
+  }
+
+  /* Mobile hover states */
+  .sidebar.collapsed .sidebar-toggle-border:hover {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    transform: none !important;
+  }
+
+  .sidebar.expanded .sidebar-toggle-border:hover {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    transform: none !important;
+  }
+
+  /* Adjust main content when sidebar is collapsed */
+  .sidebar.collapsed + .main-content {
+    margin-left: 0 !important;
+    width: 100% !important;
+    flex: 1;
+  }
+
+  .sidebar.collapsed + .main-content .content-area {
+    padding: 2rem 1rem;
+    width: 100%;
+  }
+
+  /* Hide main content when sidebar is expanded */
+  .sidebar.expanded + .main-content {
     display: none;
   }
 
   /* Adjust logo size for mobile */
   .sidebar-header img {
-    height: 3rem !important;
+    height: 10rem !important;
   }
 
   .content-area {
@@ -584,7 +767,7 @@ body {
 
   /* Adjust home page logo for mobile */
   .home-header img {
-    height: 4rem !important;
+    height: 8rem !important;
   }
 }
 
@@ -652,4 +835,31 @@ body {
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
+}
+
+/* MOBILE FORM ALIGNMENT - FINAL OVERRIDE */
+@media screen and (max-width: 768px) {
+  .form-group,
+  .form-group *,
+  .form-label,
+  label {
+    text-align: left !important;
+  }
+  
+  .form-row {
+    align-items: flex-start !important;
+  }
+  
+  .form-row .form-group {
+    text-align: left !important;
+  }
+
+  /* Mobile form spacing adjustments */
+  .form-row .form-group:first-child {
+    margin-top: 2rem !important;
+  }
+  
+  .form-row .form-group {
+    margin-bottom: 1rem !important;
+  }
 }
