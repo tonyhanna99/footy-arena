@@ -39,7 +39,7 @@ function RevealModal({ player, reveal, onClose, onMarkRevealed }) {
             {reveal.isImposter ? (
               <>
                 <div className="imposter-text">IMPOSTER</div>
-                <div className="role-label">You don't know the secret word</div>
+                <div className="role-label">You don't know the secret player</div>
               </>
             ) : (
               <>
