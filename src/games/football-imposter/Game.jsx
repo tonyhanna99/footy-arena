@@ -15,6 +15,7 @@ function Game() {
     allPlayersRevealed,
     crewCount,
     imposterCount,
+  firstClueGiver,
   } = useGame();
 
   const handleNewRound = () => {
@@ -48,6 +49,7 @@ function Game() {
           allPlayersRevealed={allPlayersRevealed}
           crewCount={crewCount}
           imposterCount={imposterCount}
+          firstClueGiver={firstClueGiver}
         />
       )}
     </div>

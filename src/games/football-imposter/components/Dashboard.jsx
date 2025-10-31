@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import RevealModal from './RevealModal.jsx';
+import FirstClueModal from './FirstClueModal.jsx';
+import { useEffect } from 'react';
 
-function Dashboard({ players, onRevealFor, onMarkRevealed, allPlayersRevealed, crewCount, imposterCount }) {
+function Dashboard({ players, onRevealFor, onMarkRevealed, allPlayersRevealed, crewCount, imposterCount, firstClueGiver }) {
   const [selectedPlayer, setSelectedPlayer] = useState(null);
   const [reveal, setReveal] = useState(null);
 
   const handlePlayerClick = (player) => {
     if (player.revealed) return;
-    
     const playerReveal = onRevealFor(player.id);
     if (playerReveal) {
       setSelectedPlayer(player);
@@ -19,6 +20,17 @@ function Dashboard({ players, onRevealFor, onMarkRevealed, allPlayersRevealed, c
     setSelectedPlayer(null);
     setReveal(null);
   };
+
+  const [showFirstClueModal, setShowFirstClueModal] = useState(false);
+
+  useEffect(() => {
+    if (allPlayersRevealed && firstClueGiver) {
+      setShowFirstClueModal(true);
+    }
+  }, [allPlayersRevealed, firstClueGiver]);
+
+  // Find the first clue giver's name
+  const firstClueGiverPlayer = players.find(p => p.id === firstClueGiver);
 
   return (
     <>
@@ -49,6 +61,9 @@ function Dashboard({ players, onRevealFor, onMarkRevealed, allPlayersRevealed, c
             <p className="text-muted mb-2">
               All players have revealed their roles. Ready for discussion!
             </p>
+            {firstClueGiverPlayer && (
+              <p className="mt-2">First Clue: <strong>{firstClueGiverPlayer.name}</strong></p>
+            )}
           </div>
         )}
       </div>
@@ -59,6 +74,13 @@ function Dashboard({ players, onRevealFor, onMarkRevealed, allPlayersRevealed, c
           reveal={reveal}
           onClose={handleCloseModal}
           onMarkRevealed={onMarkRevealed}
+        />
+      )}
+
+      {showFirstClueModal && firstClueGiverPlayer && (
+        <FirstClueModal
+          player={firstClueGiverPlayer}
+          onClose={() => setShowFirstClueModal(false)}
         />
       )}
     </>

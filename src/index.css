@@ -491,6 +491,31 @@ body {
   letter-spacing: 0.05em;
 }
 
+/* First Clue Modal variant */
+.first-clue-modal {
+  background: linear-gradient(135deg, rgba(99,102,241,0.12), rgba(99,102,241,0.06));
+  border: 2px solid rgba(99,102,241,0.18);
+}
+
+.first-clue-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+}
+
+.first-clue-sub {
+  color: var(--muted);
+  margin-bottom: 1rem;
+}
+
+.first-clue-name {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 0.5rem;
+}
+
 /* Home Page */
 .home-container {
   max-width: 800px;

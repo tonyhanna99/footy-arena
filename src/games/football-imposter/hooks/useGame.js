@@ -16,14 +16,14 @@ const shuffleArray = (array) => {
 
 const generateId = () => Math.random().toString(36).substr(2, 9);
 
-const getRandomPlayer = () => {
-  const randomIndex = Math.floor(Math.random() * FOOTBALL_PLAYERS.length);
-  return FOOTBALL_PLAYERS[randomIndex];
-};
+// small helper to pick a random index from an array
+const getRandomIndex = (arr) => Math.floor(Math.random() * arr.length);
 
 const assignRoles = (playerNames, imposterCount) => {
+  // Filter out empty names
+  const filteredNames = playerNames.filter(name => name.trim() !== '');
   // First, shuffle the actual player names to break input order dependency
-  const shuffledNames = shuffleArray([...playerNames]);
+  const shuffledNames = shuffleArray([...filteredNames]);
   
   // Then randomly select which positions in the shuffled array become imposters
   const allIndices = Array.from({ length: shuffledNames.length }, (_, i) => i);
@@ -48,6 +48,7 @@ export function useGame() {
     imposters: '',
   });
   const [roundId, setRoundId] = useState('');
+  const [firstClueGiver, setFirstClueGiver] = useState(null);
 
   // Load saved data from localStorage
   useEffect(() => {
@@ -86,20 +87,27 @@ export function useGame() {
   const startRound = useCallback((newSettings) => {
     const { count, names, imposters } = newSettings;
     
+    // Filter out empty names
+    const filteredNames = names.filter(name => name.trim() !== '');
+    
     // Validate settings
-    if (names.length !== count || imposters >= count) {
+    if (filteredNames.length !== count || imposters >= count) {
       return false;
     }
 
     // Generate new round
-    const newPlayers = assignRoles(names, imposters);
-    const newSecretWord = getRandomPlayer();
+    const newPlayers = assignRoles(filteredNames, imposters);
+    const newSecretWord = FOOTBALL_PLAYERS[getRandomIndex(FOOTBALL_PLAYERS)];
     const newRoundId = generateId();
+    // Pick a random player to give the first clue
+    const firstClueGiverIndex = getRandomIndex(newPlayers);
+    const firstClueGiverId = newPlayers[firstClueGiverIndex]?.id || null;
 
     setPlayers(newPlayers);
     setSecretWord(newSecretWord);
     setSettings(newSettings);
     setRoundId(newRoundId);
+    setFirstClueGiver(firstClueGiverId);
     setScreen('dashboard');
 
     // Save to localStorage
@@ -185,16 +193,17 @@ export function useGame() {
     secretWord,
     settings,
     roundId,
-    
+    firstClueGiver,
+
     // Actions
     startRound,
     revealFor,
     markRevealed,
     resetToSetup,
-    
+
     // Validation
     validateSettings,
-    
+
     // Computed values
     allPlayersRevealed: players.length > 0 && players.every(p => p.revealed),
     crewCount: players.filter(p => p.role === 'crew').length,
