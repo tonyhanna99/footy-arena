@@ -26,6 +26,7 @@ function Home() {
             <Link to={game.path} className="btn btn-primary btn-large">
               Play Now
             </Link>
+            <h1 style={{color: "red"}}>THIS IS THE TEST PREVIEW</h1>
           </div>
         ))}
       </div>
