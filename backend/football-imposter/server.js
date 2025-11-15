@@ -45,6 +45,9 @@ const io = new Server(server, {
 
 const PORT = process.env.PORT || 3000;
 
+// Track server uptime
+const serverStartTime = Date.now();
+
 // In-memory storage for all lobbies
 // Structure: { [lobbyCode]: { code, status, hostSocketId, players: [], footballer: null, lastActivity: Date } }
 const lobbies = {};
@@ -501,6 +504,34 @@ app.get('/', (req, res) => {
     message: 'Football Imposter Server',
     lobbies: Object.keys(lobbies).length
   });
+});
+
+// Detailed health endpoint for monitoring
+app.get('/health', (req, res) => {
+  const uptime = Date.now() - serverStartTime;
+  const uptimeMinutes = Math.floor(uptime / 60000);
+  const uptimeHours = Math.floor(uptimeMinutes / 60);
+  
+  res.json({
+    status: 'healthy',
+    uptime: {
+      milliseconds: uptime,
+      minutes: uptimeMinutes,
+      hours: uptimeHours,
+      human: uptimeHours > 0 
+        ? `${uptimeHours}h ${uptimeMinutes % 60}m` 
+        : `${uptimeMinutes}m`
+    },
+    timestamp: new Date().toISOString(),
+    activeLobbies: Object.keys(lobbies).length,
+    totalPlayers: FOOTBALL_PLAYERS.length,
+    activeSockets: io.sockets.sockets.size
+  });
+});
+
+// Ping endpoint (minimal response for cron jobs)
+app.get('/ping', (req, res) => {
+  res.status(200).send('pong');
 });
 
 // Start the server
