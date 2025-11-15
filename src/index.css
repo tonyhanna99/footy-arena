@@ -944,7 +944,7 @@ body {
 }
 
 .mode-description {
-  color: var(--muted);
+  color: rgba(240, 240, 240, 0.85);
   font-size: 0.95rem;
 }
 
@@ -990,7 +990,7 @@ body {
 }
 
 .choice-description {
-  color: var(--muted);
+  color: rgba(255, 255, 255, 0.85);
   font-size: 0.9rem;
 }
 
@@ -1399,11 +1399,48 @@ body {
   text-align: center;
 }
 
+/* Loading/Connecting State */
+.connecting-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  padding: 3rem 2rem;
+  gap: 1.5rem;
+}
+
+.football-spinner {
+  font-size: 4rem;
+  animation: spin 0.8s linear infinite, bounce 0.4s ease-in-out infinite alternate;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes bounce {
+  from {
+    transform: translateY(0) scale(1);
+  }
+  to {
+    transform: translateY(-10px) scale(1.1);
+  }
+}
+
 .connecting-message {
   text-align: center;
-  padding: 2rem;
-  color: var(--muted);
-  font-size: 1.1rem;
+  padding: 0;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
 }
 
 .error-message {

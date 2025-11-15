@@ -9,8 +9,9 @@ function Layout() {
       <main className="main-content">
         <div className="content-area">
           <Suspense fallback={
-            <div className="text-center" style={{ padding: '2rem' }}>
-              <div style={{ color: 'var(--muted)' }}>Loading...</div>
+            <div className="connecting-container">
+              <div className="football-spinner">⚽</div>
+              <p className="connecting-message">Connecting you...</p>
             </div>
           }>
             <Outlet />

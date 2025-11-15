@@ -148,8 +148,9 @@ function Game() {
           )}
 
           {!connected && !error && (
-            <div className="connecting-message">
-              Connecting to server...
+            <div className="connecting-container">
+              <div className="football-spinner">⚽</div>
+              <p className="connecting-message">Connecting to server...</p>
             </div>
           )}
 
