@@ -237,6 +237,7 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 0.5rem;
   padding: 0.75rem 1.5rem;
   border: none;
   border-radius: 8px;
@@ -246,6 +247,21 @@ body {
   cursor: pointer;
   transition: all 0.2s ease;
   min-height: 44px;
+}
+
+/* Loading Spinner */
+.spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 
 .btn-primary {
@@ -886,5 +902,558 @@ body {
   
   .form-row .form-group {
     margin-bottom: 1rem !important;
+  }
+}
+
+/* Online Mode Components */
+.mode-selection {
+  padding: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.mode-selection h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+}
+
+.mode-buttons {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.mode-btn {
+  padding: 2rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  min-height: 200px;
+  justify-content: center;
+}
+
+.mode-icon {
+  font-size: 3rem;
+}
+
+.mode-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.mode-description {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+/* Online Mode Selection */
+.online-mode-selection {
+  padding: 2rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.online-mode-selection h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+}
+
+.back-btn {
+  margin-bottom: 1rem;
+}
+
+.online-choice-buttons {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.choice-btn {
+  padding: 2rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-height: 150px;
+  justify-content: center;
+}
+
+.choice-icon {
+  font-size: 2.5rem;
+}
+
+.choice-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.choice-description {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+/* Lobby Form */
+.lobby-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.lobby-form .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.lobby-form label {
+  font-weight: 500;
+  color: var(--text);
+}
+
+.lobby-form input {
+  padding: 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  background-color: var(--surface);
+  color: var(--text);
+  font-size: 1rem;
+}
+
+.lobby-form input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+/* Lobby Waiting Room */
+.lobby-waiting-room {
+  padding: 2rem;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.lobby-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.lobby-header h2 {
+  font-size: 1.75rem;
+}
+
+.copy-btn {
+  font-size: 0.9rem;
+}
+
+.lobby-code-display {
+  background-color: var(--surface);
+  border: 2px solid var(--accent);
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.code-label {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+.code-value {
+  font-size: 2.5rem;
+  font-weight: 700;
+  letter-spacing: 0.3rem;
+  color: var(--accent);
+  font-family: monospace;
+  margin-bottom: 1rem;
+}
+
+.copy-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.copy-buttons .btn {
+  flex: 0 0 auto;
+  min-width: 140px;
+}
+
+.players-section {
+  margin-bottom: 2rem;
+}
+
+.players-section h3 {
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+}
+
+.players-list {
+  background-color: var(--surface);
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.player-item {
+  padding: 1rem;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.player-item:last-child {
+  border-bottom: none;
+}
+
+.player-name {
+  font-weight: 500;
+  flex: 1;
+}
+
+.host-badge {
+  background-color: var(--accent);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.you-badge {
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-style: italic;
+}
+
+.lobby-status {
+  margin-bottom: 2rem;
+}
+
+.waiting-message {
+  background-color: var(--surface);
+  border-left: 4px solid var(--accent);
+  padding: 1rem;
+  border-radius: 0.25rem;
+}
+
+.waiting-message p {
+  margin: 0;
+}
+
+.lobby-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.lobby-actions .btn {
+  flex: 1;
+  min-width: 150px;
+}
+
+/* Game Settings Section in Lobby */
+.game-settings-section {
+  margin-bottom: 2rem;
+  background-color: var(--surface);
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+}
+
+.game-settings-section h3 {
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+}
+
+.game-settings-section .form-group {
+  margin-bottom: 0;
+}
+
+.game-settings-section label {
+  font-weight: 500;
+  color: var(--text);
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.form-select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  background-color: var(--bg);
+  color: var(--text);
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.imposter-count-display {
+  padding: 0.75rem;
+  background-color: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--accent);
+  text-align: center;
+}
+
+.form-select:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.form-select:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Online Gameplay */
+.online-gameplay {
+  padding: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.game-header-info {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.game-header-info h2 {
+  margin-bottom: 0.5rem;
+}
+
+.lobby-code-small {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.online-gameplay .card {
+  margin-bottom: 2rem;
+}
+
+.online-gameplay .card .players-list {
+  background-color: transparent;
+}
+
+.online-gameplay .players-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.online-gameplay .game-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.role-reveal {
+  background: linear-gradient(135deg, var(--surface) 0%, var(--bg) 100%);
+  border-radius: 1rem;
+  padding: 3rem 2rem;
+  text-align: center;
+  margin-bottom: 2rem;
+  border: 2px solid var(--border);
+}
+
+.role-reveal.imposter {
+  border-color: var(--danger);
+  background: linear-gradient(135deg, #2d1515 0%, var(--bg) 100%);
+}
+
+.role-reveal.crewmate {
+  border-color: var(--success);
+  background: linear-gradient(135deg, #152d1f 0%, var(--bg) 100%);
+}
+
+.role-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+.role-title {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.role-reveal.imposter .role-title {
+  color: var(--danger);
+}
+
+.role-reveal.crewmate .role-title {
+  color: var(--success);
+}
+
+.role-description {
+  color: var(--muted);
+  font-size: 1.1rem;
+}
+
+.role-description p {
+  margin-bottom: 0.5rem;
+}
+
+.role-description p:last-child {
+  margin-bottom: 0;
+}
+
+.footballer-reveal {
+  margin: 2rem 0 1.5rem;
+  padding: 1.5rem;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 0.75rem;
+  border: 2px solid var(--success);
+}
+
+.footballer-label {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  margin-bottom: 0.75rem;
+}
+
+.footballer-name {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--success);
+  text-align: center;
+  line-height: 1.2;
+}
+
+.players-status {
+  margin-bottom: 2rem;
+}
+
+.players-status h3 {
+  margin-bottom: 1rem;
+}
+
+.players-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 1rem;
+}
+
+.player-card {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  text-align: center;
+  position: relative;
+}
+
+.player-card .player-name {
+  font-weight: 500;
+}
+
+.player-card .host-indicator {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  font-size: 1.25rem;
+}
+
+.game-instructions {
+  background-color: var(--surface);
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.game-instructions h3 {
+  margin-bottom: 1rem;
+}
+
+.game-instructions ol {
+  margin-left: 1.5rem;
+  color: var(--muted);
+}
+
+.game-instructions li {
+  margin-bottom: 0.5rem;
+}
+
+.game-actions {
+  display: flex;
+  justify-content: center;
+}
+
+/* Error and Status Messages */
+.error-banner {
+  background-color: rgba(239, 68, 68, 0.1);
+  border: 1px solid var(--danger);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  color: var(--danger);
+  text-align: center;
+}
+
+.connecting-message {
+  text-align: center;
+  padding: 2rem;
+  color: var(--muted);
+  font-size: 1.1rem;
+}
+
+.error-message {
+  color: var(--danger);
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+/* Mobile responsiveness for online components */
+@media (max-width: 768px) {
+  .mode-buttons {
+    grid-template-columns: 1fr;
+  }
+
+  .mode-btn {
+    min-height: 150px;
+  }
+
+  .lobby-header {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+
+  .code-value {
+    font-size: 2rem;
+    letter-spacing: 0.2rem;
+  }
+
+  .lobby-actions {
+    flex-direction: column;
+  }
+
+  .lobby-actions .btn {
+    width: 100%;
+  }
+
+  .players-grid {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  }
+
+  .role-reveal {
+    padding: 2rem 1rem;
+  }
+
+  .role-title {
+    font-size: 1.5rem;
+  }
+
+  .footballer-name {
+    font-size: 1.75rem;
   }
 }

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-function SetupForm({ settings, onStartRound, validateSettings }) {
+function SetupForm({ settings, onStartRound, validateSettings, onBack }) {
   const [formData, setFormData] = useState({
     count: settings.count,
     names: settings.names.length > 0 ? [...settings.names] : Array(settings.count).fill(''),
@@ -107,6 +107,11 @@ function SetupForm({ settings, onStartRound, validateSettings }) {
 
   return (
     <div className="card">
+      {onBack && (
+        <button onClick={onBack} className="btn btn-secondary back-btn" style={{ marginBottom: '2rem' }}>
+          ← Back
+        </button>
+      )}
       <div className="card-header">
         <h2 className="card-title">Game Setup</h2>
         <p className="card-description">
