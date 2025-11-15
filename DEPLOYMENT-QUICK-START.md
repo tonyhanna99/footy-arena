@@ -5,9 +5,9 @@
 Your backend consists of:
 1. ✅ `server.js` - Socket.IO server
 2. ✅ `package.json` - Dependencies (Express, Socket.IO, CORS)
-3. ✅ `../../src/games/football-imposter/data/players.json` - **382 players** (shared with frontend)
+3. ✅ `players.json` - **382 players** (local copy, synced from frontend)
 
-All files are ready and verified! ✅
+All files are in `backend/football-imposter/` and ready to deploy! ✅
 
 ---
 
@@ -81,15 +81,30 @@ All files are ready and verified! ✅
 
 ✅ **The JSON file WILL be deployed automatically** because:
 
-1. It's in your Git repository at `src/games/football-imposter/data/players.json`
-2. Your `server.js` imports it with: `require('../../src/games/football-imposter/data/players.json')`
-3. Render/Railway deploy your **entire repository**, including all directories
-4. The relative path works because the folder structure is preserved
+1. It's in `backend/football-imposter/players.json` (same directory as server.js)
+2. Your `server.js` imports it with: `require('./players.json')`
+3. Render/Railway deploy the entire `backend/football-imposter/` directory
+4. Simple relative path `./` always works!
 
 **You don't need to do anything special!** The deployment service will:
-- Clone your entire repo
-- Keep the folder structure intact
-- The `require()` statement will find the file automatically
+- Clone your repo
+- Navigate to `backend/football-imposter/`
+- Find `players.json` right there
+- Deploy everything together ✅
+
+### Updating Players Later
+
+If you add/remove players from the frontend list, sync them to backend:
+
+```bash
+cd backend/football-imposter
+./sync-players.sh
+git add players.json
+git commit -m "Update player list"
+git push
+```
+
+Render/Railway will auto-redeploy with the updated list!
 
 ---
 

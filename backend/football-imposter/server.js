@@ -1,10 +1,9 @@
 const express = require('express');
 const http = require('http');
 const { Server } = require('socket.io');
-const path = require('path');
 
-// Import shared player data
-const FOOTBALL_PLAYERS = require('../../src/games/football-imposter/data/players.json');
+// Import player data from local copy
+const FOOTBALL_PLAYERS = require('./players.json');
 
 const app = express();
 const server = http.createServer(app);
