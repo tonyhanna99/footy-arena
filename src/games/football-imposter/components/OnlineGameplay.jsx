@@ -14,9 +14,8 @@ function OnlineGameplay({ lobby, myRole, footballer, currentSocketId, onNewRound
   }
 
   const players = lobby.players || [];
-  // Use counts from lobby data (provided by backend)
+  // Use imposter count from lobby data (provided by backend)
   const imposterCount = lobby.imposterCount || 0;
-  const crewCount = lobby.crewCount || 0;
   
   // Find current player's info by socketId
   const myPlayer = players.find(p => p.socketId === currentSocketId);
@@ -58,11 +57,20 @@ function OnlineGameplay({ lobby, myRole, footballer, currentSocketId, onNewRound
           <div className="lobby-code-small">Lobby: {lobby.code}</div>
         </div>
 
+        {/* Imposter Count Badge - Standalone */}
+        <div className="imposter-count-badge">
+          <div className="imposter-count-icon">⚠️</div>
+          <div className="imposter-count-text">
+            <div className="imposter-count-number">{imposterCount}</div>
+            <div className="imposter-count-label">IMPOSTER{imposterCount !== 1 ? 'S' : ''}</div>
+          </div>
+        </div>
+
         <div className="card">
           <div className="card-header">
-            <h3 className="card-title">Game Dashboard</h3>
+            <h3 className="card-title">Your Role</h3>
             <p className="card-description">
-              Tap your name to see your role. {crewCount} crew member{crewCount !== 1 ? 's' : ''}, {imposterCount} imposter{imposterCount !== 1 ? 's' : ''}.
+              Tap your name to see your role.
             </p>
           </div>
 
@@ -81,7 +89,7 @@ function OnlineGameplay({ lobby, myRole, footballer, currentSocketId, onNewRound
         {/* Show all players in the lobby */}
         <div className="card">
           <div className="card-header">
-            <h3 className="card-title">Players in Game ({players.length})</h3>
+            <h3 className="card-title">Players in Session ({players.length})</h3>
           </div>
           <div className="players-list">
             {players.map((player) => (

@@ -40,7 +40,11 @@ const io = new Server(server, {
     },
     methods: ['GET', 'POST'],
     credentials: true
-  }
+  },
+  // Increase ping timeout to handle phone locks and slow connections
+  // Total timeout: pingInterval + pingTimeout = 120s + 60s = 180 seconds (3 minutes)
+  pingTimeout: 60000, // 60 seconds - wait time for pong response (up from default 5s)
+  pingInterval: 120000, // 120 seconds - how often to send ping (up from default 25s)
 });
 
 const PORT = process.env.PORT || 3000;
@@ -114,16 +118,28 @@ function generateLobbyCode() {
 // If hideRoles is true, we don't expose individual player roles (for public updates)
 function getLobbyData(lobby, hideRoles = false) {
   const players = lobby.players || [];
-  const imposterCount = players.filter(p => p.role === 'imposter').length;
-  const crewCount = players.length - imposterCount;
+  
+  // During an active game, use the frozen initial counts to prevent role reveals when players disconnect
+  // Otherwise, calculate from current players (but this should be 0 during waiting status anyway)
+  let imposterCount, crewCount;
+  
+  if (lobby.status === 'in_progress') {
+    // Use frozen counts from game start - NEVER recalculate during active game
+    imposterCount = lobby.initialImposterCount || 0;
+    crewCount = lobby.initialCrewCount || 0;
+  } else {
+    // During waiting or finished, counts are 0 (roles not yet assigned or game over)
+    imposterCount = 0;
+    crewCount = 0;
+  }
   
   return {
     code: lobby.code,
     status: lobby.status,
     hostSocketId: lobby.hostSocketId,
     selectedImposterCount: lobby.selectedImposterCount || 1, // Host's selection
-    imposterCount: lobby.status === 'in_progress' ? imposterCount : 0, // Only reveal count during game
-    crewCount: lobby.status === 'in_progress' ? crewCount : 0,
+    imposterCount: imposterCount,
+    crewCount: crewCount,
     players: lobby.players.map(p => ({
       socketId: p.socketId,
       name: p.name,
@@ -220,6 +236,8 @@ io.on('connection', (socket) => {
       hostSocketId: socket.id,
       footballer: null, // Will be set when game starts
       selectedImposterCount: 1, // Default imposter count
+      initialImposterCount: 0, // Frozen count at game start (for preventing role reveals)
+      initialCrewCount: 0, // Frozen count at game start (for preventing role reveals)
       lastActivity: Date.now(), // Track last activity for cleanup
       players: [
         {
@@ -423,6 +441,11 @@ io.on('connection', (socket) => {
     // Update lobby status
     lobby.status = 'in_progress';
     
+    // Store initial counts at game start - these will NOT change even if players disconnect
+    // This prevents revealing roles when someone leaves
+    lobby.initialImposterCount = imposterCount;
+    lobby.initialCrewCount = playerCount - imposterCount;
+    
     // Update activity timestamp
     updateLobbyActivity(lobby);
     
@@ -454,6 +477,10 @@ io.on('connection', (socket) => {
     // Reset lobby to waiting state
     lobby.status = 'waiting';
     lobby.footballer = null;
+    
+    // Reset frozen counts (they'll be set again when next game starts)
+    lobby.initialImposterCount = 0;
+    lobby.initialCrewCount = 0;
     
     // Reset all players' roles but keep them in the lobby
     lobby.players.forEach(player => {
