@@ -414,7 +414,8 @@ io.on('connection', (socket) => {
     }
     
     // Select a random footballer for this game
-    const footballer = getRandomFootballer();
+    const footballerObj = getRandomFootballer();
+    const footballer = footballerObj.name; // Extract just the name for gameplay
     lobby.footballer = footballer;
     
     console.log(`Starting game in lobby ${code} with ${playerCount} players and ${imposterCount} imposter(s)`);
