@@ -171,10 +171,12 @@ function removePlayerFromLobby(socketId) {
       // Remove from tracking map
       socketToLobby.delete(socketId);
       
-      // If lobby is now empty, delete it
+      // Don't delete empty lobbies immediately - let them persist for the inactivity timeout
+      // This allows hosts to share the lobby link without the lobby being deleted
       if (lobby.players.length === 0) {
-        delete lobbies[code];
-        console.log(`Lobby ${code} deleted (empty)`);
+        console.log(`Lobby ${code} is now empty but will persist for inactivity timeout`);
+        // Update activity timestamp so it has full timeout period
+        updateLobbyActivity(lobby);
         return null;
       }
       
