@@ -11,6 +11,7 @@ const server = http.createServer(app);
 // Configure CORS for Socket.IO
 const allowedOrigins = [
   'http://localhost:5173', // Local dev
+  'http://localhost:5174', // Local dev (alternate port)
   'https://footyarena.com', // Production
   'https://www.footyarena.com', // Production with www
   'https://footy-arena-*.vercel.app', // Vercel preview deployments
@@ -497,6 +498,359 @@ io.on('connection', (socket) => {
     console.log(`Lobby ${code} reset for new round`);
   });
   
+  // ============================================
+  // GUESS WHO GAME EVENTS
+  // ============================================
+  
+  // Guess Who: Create Lobby
+  socket.on('guessWho:createLobby', ({ name }) => {
+    if (socketToLobby.has(socket.id)) {
+      socket.emit('guessWho:error', { message: 'You are already in a lobby.' });
+      return;
+    }
+
+    const code = generateLobbyCode();
+    const lobby = {
+      code,
+      gameType: 'guessWho',
+      phase: 'waiting', // 'waiting', 'selecting', 'playing'
+      hostSocketId: socket.id,
+      sharedPlayerList: null, // Will be set when game starts
+      lastActivity: Date.now(),
+      players: [
+        {
+          socketId: socket.id,
+          name,
+          isHost: true,
+          playerLayout: null, // Randomized layout per player
+          secretPlayer: null,
+          hasSelected: false
+        }
+      ]
+    };
+
+    lobbies[code] = lobby;
+    socket.join(code);
+    socketToLobby.set(socket.id, code);
+
+    console.log(`Guess Who lobby created: ${code} by ${name}`);
+    socket.emit('guessWho:lobbyUpdate', {
+      code: lobby.code,
+      phase: lobby.phase,
+      hostSocketId: lobby.hostSocketId,
+      players: lobby.players.map(p => ({
+        socketId: p.socketId,
+        name: p.name,
+        isHost: p.isHost,
+        hasSelected: p.hasSelected
+      }))
+    });
+  });
+
+  // Guess Who: Join Lobby
+  socket.on('guessWho:joinLobby', ({ code, name }) => {
+    if (socketToLobby.has(socket.id)) {
+      socket.emit('guessWho:joinError', { message: 'You are already in a lobby.' });
+      return;
+    }
+
+    const lobby = lobbies[code];
+    if (!lobby || lobby.gameType !== 'guessWho') {
+      socket.emit('guessWho:joinError', { message: 'Lobby not found' });
+      return;
+    }
+
+    if (lobby.phase !== 'waiting') {
+      socket.emit('guessWho:joinError', { message: 'Game already in progress' });
+      return;
+    }
+
+    if (lobby.players.length >= 2) {
+      socket.emit('guessWho:joinError', { message: 'Lobby is full (max 2 players)' });
+      return;
+    }
+
+    lobby.players.push({
+      socketId: socket.id,
+      name,
+      isHost: false,
+      playerLayout: null,
+      secretPlayer: null,
+      hasSelected: false
+    });
+
+    socket.join(code);
+    socketToLobby.set(socket.id, code);
+    updateLobbyActivity(lobby);
+
+    console.log(`${name} joined Guess Who lobby ${code}`);
+    io.to(code).emit('guessWho:lobbyUpdate', {
+      code: lobby.code,
+      phase: lobby.phase,
+      hostSocketId: lobby.hostSocketId,
+      players: lobby.players.map(p => ({
+        socketId: p.socketId,
+        name: p.name,
+        isHost: p.isHost,
+        hasSelected: p.hasSelected
+      }))
+    });
+  });
+
+  // Guess Who: Rejoin Lobby
+  socket.on('guessWho:rejoinLobby', ({ code, name }) => {
+    const lobby = lobbies[code];
+    if (!lobby || lobby.gameType !== 'guessWho') {
+      return;
+    }
+
+    const player = lobby.players.find(p => p.name === name);
+    if (player) {
+      player.socketId = socket.id;
+      socket.join(code);
+      socketToLobby.set(socket.id, code);
+      updateLobbyActivity(lobby);
+
+      socket.emit('guessWho:lobbyUpdate', {
+        code: lobby.code,
+        phase: lobby.phase,
+        hostSocketId: lobby.hostSocketId,
+        players: lobby.players.map(p => ({
+          socketId: p.socketId,
+          name: p.name,
+          isHost: p.isHost,
+          hasSelected: p.hasSelected
+        }))
+      });
+
+      // If game started, resend player's layout and phase
+      if (lobby.phase !== 'waiting' && player.playerLayout) {
+        socket.emit('guessWho:gameStarted', {
+          sharedPlayerList: lobby.sharedPlayerList,
+          myPlayerLayout: player.playerLayout
+        });
+      }
+    }
+  });
+
+  // Guess Who: Start Game
+  socket.on('guessWho:startGame', ({ code }) => {
+    const lobby = lobbies[code];
+    if (!lobby || lobby.gameType !== 'guessWho') {
+      socket.emit('guessWho:error', { message: 'Lobby not found' });
+      return;
+    }
+
+    if (lobby.hostSocketId !== socket.id) {
+      socket.emit('guessWho:error', { message: 'Only host can start game' });
+      return;
+    }
+
+    if (lobby.players.length !== 2) {
+      socket.emit('guessWho:error', { message: 'Need exactly 2 players' });
+      return;
+    }
+
+    // Select 24 random players for the game (same for both players)
+    const allPlayers = shuffleArray(FOOTBALL_PLAYERS);
+    const selectedPlayers = allPlayers.slice(0, 24);
+    lobby.sharedPlayerList = selectedPlayers;
+
+    // Generate different randomized layouts for each player
+    lobby.players.forEach(player => {
+      player.playerLayout = shuffleArray([...selectedPlayers]);
+    });
+
+    lobby.phase = 'selecting';
+    updateLobbyActivity(lobby);
+
+    console.log(`Guess Who game started in lobby ${code}`);
+
+    // Send each player their own randomized layout
+    lobby.players.forEach(player => {
+      io.to(player.socketId).emit('guessWho:gameStarted', {
+        sharedPlayerList: lobby.sharedPlayerList,
+        myPlayerLayout: player.playerLayout
+      });
+    });
+
+    // Update lobby state
+    io.to(code).emit('guessWho:lobbyUpdate', {
+      code: lobby.code,
+      phase: lobby.phase,
+      hostSocketId: lobby.hostSocketId,
+      players: lobby.players.map(p => ({
+        socketId: p.socketId,
+        name: p.name,
+        isHost: p.isHost,
+        hasSelected: p.hasSelected
+      }))
+    });
+  });
+
+  // Guess Who: Select Secret Player
+  socket.on('guessWho:selectPlayer', ({ code, playerName }) => {
+    const lobby = lobbies[code];
+    if (!lobby || lobby.gameType !== 'guessWho') {
+      return;
+    }
+
+    const player = lobby.players.find(p => p.socketId === socket.id);
+    if (!player) {
+      return;
+    }
+
+    player.secretPlayer = playerName;
+    player.hasSelected = true;
+    updateLobbyActivity(lobby);
+
+    console.log(`${player.name} selected secret player: ${playerName}`);
+
+    // Check if both players have selected
+    const allSelected = lobby.players.every(p => p.hasSelected);
+    
+    if (allSelected) {
+      lobby.phase = 'playing';
+      io.to(code).emit('guessWho:playerSelected', { 
+        message: 'Both players ready!'
+      });
+      
+      console.log(`Guess Who lobby ${code} - both players ready, game starting`);
+    } else {
+      // Notify the other player that opponent is ready
+      const otherPlayer = lobby.players.find(p => p.socketId !== socket.id);
+      if (otherPlayer) {
+        io.to(otherPlayer.socketId).emit('guessWho:opponentReady', {
+          message: `${player.name} has selected their player`
+        });
+      }
+    }
+
+    // Update lobby state
+    io.to(code).emit('guessWho:lobbyUpdate', {
+      code: lobby.code,
+      phase: lobby.phase,
+      hostSocketId: lobby.hostSocketId,
+      players: lobby.players.map(p => ({
+        socketId: p.socketId,
+        name: p.name,
+        isHost: p.isHost,
+        hasSelected: p.hasSelected
+      }))
+    });
+  });
+
+  // Guess Who: Start New Round
+  socket.on('guessWho:newRound', ({ code }) => {
+    const lobby = lobbies[code];
+    if (!lobby || lobby.gameType !== 'guessWho') {
+      socket.emit('guessWho:error', { message: 'Lobby not found' });
+      return;
+    }
+
+    // Only host can start a new round
+    if (socket.id !== lobby.hostSocketId) {
+      socket.emit('guessWho:error', { message: 'Only the host can start a new round' });
+      return;
+    }
+
+    console.log(`New round started in Guess Who lobby ${code}`);
+
+    // Reset player states
+    lobby.players.forEach(player => {
+      player.secretPlayer = null;
+      player.hasSelected = false;
+    });
+
+    // Select new random players for the game
+    const allPlayers = shuffleArray(FOOTBALL_PLAYERS);
+    const selectedPlayers = allPlayers.slice(0, 24);
+    lobby.sharedPlayerList = selectedPlayers;
+
+    // Generate different randomized layouts for each player
+    lobby.players.forEach(player => {
+      player.playerLayout = shuffleArray([...selectedPlayers]);
+    });
+
+    // Reset phase to selecting
+    lobby.phase = 'selecting';
+    updateLobbyActivity(lobby);
+
+    // Send each player their new randomized layout
+    lobby.players.forEach(player => {
+      io.to(player.socketId).emit('guessWho:newRoundStarted', {
+        sharedPlayerList: lobby.sharedPlayerList,
+        myPlayerLayout: player.playerLayout
+      });
+    });
+
+    // Update lobby state
+    io.to(code).emit('guessWho:lobbyUpdate', {
+      code: lobby.code,
+      phase: lobby.phase,
+      hostSocketId: lobby.hostSocketId,
+      players: lobby.players.map(p => ({
+        socketId: p.socketId,
+        name: p.name,
+        isHost: p.isHost,
+        hasSelected: p.hasSelected
+      }))
+    });
+  });
+
+  // Guess Who: Leave Lobby
+  socket.on('guessWho:leaveLobby', ({ code }) => {
+    const lobby = lobbies[code];
+    if (!lobby || lobby.gameType !== 'guessWho') {
+      return;
+    }
+
+    // Check if game is in progress (selecting or playing phase)
+    const gameInProgress = lobby.phase === 'selecting' || lobby.phase === 'playing';
+    
+    if (gameInProgress) {
+      // Game is active - end it for everyone
+      const remainingPlayers = lobby.players.filter(p => p.socketId !== socket.id);
+      
+      // Notify remaining players that the game is ending
+      remainingPlayers.forEach(player => {
+        io.to(player.socketId).emit('guessWho:gameEnded', {
+          reason: 'opponent_left',
+          message: 'Your opponent has left the game.'
+        });
+      });
+
+      // Remove the leaving player and delete the lobby
+      removePlayerFromLobby(socket.id);
+      delete lobbies[code];
+      console.log(`Guess Who lobby ${code} - player left during game, ending for all players`);
+    } else {
+      // Still in waiting phase - just remove the player, keep lobby open
+      const result = removePlayerFromLobby(socket.id);
+      if (result && result.lobby) {
+        io.to(code).emit('guessWho:lobbyUpdate', {
+          code: result.lobby.code,
+          phase: result.lobby.phase,
+          hostSocketId: result.lobby.hostSocketId,
+          players: result.lobby.players.map(p => ({
+            socketId: p.socketId,
+            name: p.name,
+            isHost: p.isHost,
+            hasSelected: p.hasSelected
+          }))
+        });
+
+        if (result.newHostName) {
+          io.to(code).emit('guessWho:hostChanged', {
+            newHostName: result.newHostName
+          });
+        }
+        
+        console.log(`Guess Who lobby ${code} - player left during waiting, lobby remains open`);
+      }
+    }
+  });
+
   // Event: disconnect
   socket.on('disconnect', () => {
     console.log(`Player disconnected: ${socket.id}`);
@@ -504,21 +858,73 @@ io.on('connection', (socket) => {
     // Clean up rate limit tracking for this socket
     lobbyCreationAttempts.delete(socket.id);
     
+    // Check if player was in a Guess Who lobby before removing
+    const lobbyCode = socketToLobby.get(socket.id);
+    const wasInGuessWhoLobby = lobbyCode && lobbies[lobbyCode] && lobbies[lobbyCode].gameType === 'guessWho';
+    const guessWhoLobby = wasInGuessWhoLobby ? lobbies[lobbyCode] : null;
+    
+    // Check if game was in progress (not just waiting)
+    const gameInProgress = guessWhoLobby && (guessWhoLobby.phase === 'selecting' || guessWhoLobby.phase === 'playing');
+    
+    // Get remaining players before removal
+    const remainingPlayers = guessWhoLobby ? guessWhoLobby.players.filter(p => p.socketId !== socket.id) : [];
+    
     const result = removePlayerFromLobby(socket.id);
     
     // If lobby still exists, notify remaining players
     if (result) {
       const { lobby, newHostName } = result;
       
-      // Send lobby update
-      io.to(lobby.code).emit('lobbyUpdate', getLobbyData(lobby, lobby.status === 'waiting'));
-      
-      // If there's a new host, notify all players
-      if (newHostName) {
-        io.to(lobby.code).emit('hostChanged', { 
-          newHostName,
-          message: `${newHostName} is now the host`
-        });
+      // Determine game type and send appropriate updates
+      if (lobby.gameType === 'guessWho') {
+        if (gameInProgress) {
+          // Game was active - end it for everyone
+          console.log(`Guess Who lobby ${lobby.code} - player disconnected during game, ending for remaining players`);
+          
+          // Notify remaining players that the game is ending
+          remainingPlayers.forEach(player => {
+            io.to(player.socketId).emit('guessWho:gameEnded', {
+              reason: 'opponent_disconnected',
+              message: 'Your opponent has disconnected.'
+            });
+          });
+          
+          // Delete the lobby
+          delete lobbies[lobby.code];
+          console.log(`Guess Who lobby ${lobby.code} deleted due to player disconnect during game`);
+        } else {
+          // Still in waiting phase - keep lobby open
+          console.log(`Guess Who lobby ${lobby.code} - player disconnected during waiting, lobby remains open`);
+          
+          io.to(lobby.code).emit('guessWho:lobbyUpdate', {
+            code: lobby.code,
+            phase: lobby.phase,
+            hostSocketId: lobby.hostSocketId,
+            players: lobby.players.map(p => ({
+              socketId: p.socketId,
+              name: p.name,
+              isHost: p.isHost,
+              hasSelected: p.hasSelected
+            }))
+          });
+
+          if (newHostName) {
+            io.to(lobby.code).emit('guessWho:hostChanged', {
+              newHostName,
+              message: `${newHostName} is now the host`
+            });
+          }
+        }
+      } else {
+        // Football Imposter game
+        io.to(lobby.code).emit('lobbyUpdate', getLobbyData(lobby, lobby.status === 'waiting'));
+        
+        if (newHostName) {
+          io.to(lobby.code).emit('hostChanged', { 
+            newHostName,
+            message: `${newHostName} is now the host`
+          });
+        }
       }
     }
   });

@@ -1064,12 +1064,13 @@ body {
 }
 
 .code-value {
-  font-size: 2.5rem;
+  font-size: clamp(1.8rem, 6vw, 2.5rem);
   font-weight: 700;
-  letter-spacing: 0.3rem;
+  letter-spacing: clamp(0.15rem, 0.5vw, 0.3rem);
   color: var(--accent);
   font-family: monospace;
   margin-bottom: 1rem;
+  word-break: break-all;
 }
 
 .copy-buttons {
@@ -1077,11 +1078,44 @@ body {
   gap: 1rem;
   justify-content: center;
   margin-top: 1rem;
+  flex-wrap: wrap;
 }
 
 .copy-buttons .btn {
   flex: 0 0 auto;
   min-width: 140px;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.95rem;
+}
+
+/* Mobile responsive improvements */
+@media (max-width: 480px) {
+  .lobby-code-display {
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .code-label {
+    font-size: 0.85rem;
+  }
+
+  .code-value {
+    font-size: 1.8rem;
+    letter-spacing: 0.15rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .copy-buttons {
+    gap: 0.5rem;
+    flex-direction: column;
+  }
+
+  .copy-buttons .btn {
+    width: 100%;
+    min-width: unset;
+    padding: 0.875rem 1rem;
+    font-size: 1rem;
+  }
 }
 
 .players-section {

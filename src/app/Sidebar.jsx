@@ -5,6 +5,12 @@ const games = [
   {
     name: 'Football Imposter',
     path: '/games/football-imposter',
+    icon: '🕵️',
+  },
+  {
+    name: 'Guess Who',
+    path: '/games/guess-who',
+    icon: '❓',
   },
 ];
 
@@ -99,12 +105,20 @@ function Sidebar() {
                 to={game.path} 
                 className={({ isActive }) => isActive ? 'active' : ''}
                 title={game.name}
-                onClick={handleNavClick}
+                onClick={(e) => {
+                  handleNavClick();
+                  // If already on this path, force a reload by navigating to same path
+                  if (window.location.pathname === game.path) {
+                    e.preventDefault();
+                    // Force reload by navigating away and back
+                    window.location.href = game.path;
+                  }
+                }}
               >
                 {isExpanded ? (
                   game.name
                 ) : (
-                  <span className="sidebar-icon">🔍</span>
+                  <span className="sidebar-icon">{game.icon}</span>
                 )}
               </NavLink>
             </li>

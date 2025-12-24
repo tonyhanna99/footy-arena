@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useGame } from './hooks/useGame.js';
 import { useSocket } from './hooks/useSocket.js';
 import SetupForm from './components/SetupForm.jsx';
@@ -10,6 +10,7 @@ import OnlineGameplay from './components/OnlineGameplay.jsx';
 
 function Game() {
   const [gameMode, setGameMode] = useState(null); // null, 'local', 'online'
+  const cleanupRef = useRef({ leaveLobby: null, disconnect: null, lobby: null });
   
   // Check for ?join= URL parameter on component mount and auto-select online mode
   useEffect(() => {
@@ -52,6 +53,30 @@ function Game() {
     leaveLobby,
     disconnect,
   } = useSocket(gameMode === 'online');
+
+  // Keep cleanup functions updated in ref
+  useEffect(() => {
+    cleanupRef.current = { leaveLobby, disconnect, lobby };
+  }, [leaveLobby, disconnect, lobby]);
+
+  // Cleanup on unmount only - disconnect from game when leaving
+  useEffect(() => {
+    return () => {
+      // Use ref to get current values at cleanup time
+      const { leaveLobby: leave, disconnect: disc, lobby: currentLobby } = cleanupRef.current;
+      if (currentLobby && leave) {
+        leave();
+        // Give backend time to process leave event before disconnecting
+        setTimeout(() => {
+          if (disc) {
+            disc();
+          }
+        }, 200);
+      } else if (disc) {
+        disc();
+      }
+    };
+  }, []); // Empty deps - only run on unmount
 
   const handleNewRound = () => {
     resetToSetup(true); // Preserve names

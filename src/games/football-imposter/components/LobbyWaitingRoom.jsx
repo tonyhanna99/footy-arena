@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import LobbyCodeDisplay from '../../../shared/components/LobbyCodeDisplay.jsx';
 
 function LobbyWaitingRoom({ lobby, currentSocketId, onStartGame, onLeaveLobby, socket }) {
   const isHost = lobby.hostSocketId === currentSocketId;
@@ -15,15 +16,6 @@ function LobbyWaitingRoom({ lobby, currentSocketId, onStartGame, onLeaveLobby, s
       setImposterCount(lobby.selectedImposterCount);
     }
   }, [lobby.selectedImposterCount]);
-
-  const copyLobbyCode = () => {
-    navigator.clipboard.writeText(lobby.code);
-  };
-
-  const copyLobbyUrl = () => {
-    const url = `${window.location.origin}${window.location.pathname}?join=${lobby.code}`;
-    navigator.clipboard.writeText(url);
-  };
 
   const handleImposterChange = (e) => {
     const value = parseInt(e.target.value);
@@ -64,18 +56,7 @@ function LobbyWaitingRoom({ lobby, currentSocketId, onStartGame, onLeaveLobby, s
 
   return (
     <div className="lobby-waiting-room">
-      <div className="lobby-code-display">
-        <div className="code-label">Share this code with your friends:</div>
-        <div className="code-value">{lobby.code}</div>
-        <div className="copy-buttons">
-          <button onClick={copyLobbyCode} className="btn btn-secondary" title="Copy lobby code">
-            📋 Copy Code
-          </button>
-          <button onClick={copyLobbyUrl} className="btn btn-secondary" title="Copy invite link">
-            🔗 Copy Link
-          </button>
-        </div>
-      </div>
+      <LobbyCodeDisplay code={lobby.code} label="Share this code with your friends:" />
 
       <div className="players-section">
         <h3>Players ({playerCount})</h3>

@@ -1,0 +1,1647 @@
+/* Guess Who Game Styles */
+
+.guess-who-game {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+  min-height: 100vh;
+  background-color: var(--bg);
+  color: var(--text);
+}
+
+/* Mode Selection */
+.guess-who-mode-selection {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.mode-container {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.game-title {
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: var(--accent);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.game-description {
+  font-size: 1.2rem;
+  color: var(--muted);
+  margin-bottom: 40px;
+}
+
+.mode-options {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-bottom: 40px;
+}
+
+.mode-button {
+  background: var(--surface);
+  border: 3px solid var(--border);
+  border-radius: 12px;
+  padding: 30px;
+  cursor: pointer;
+  transition: all 0.3s;
+  min-width: 200px;
+  color: var(--text);
+}
+
+.mode-button:hover {
+  border-color: var(--accent);
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(33, 161, 255, 0.3);
+}
+
+.mode-button-online {
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+  color: white;
+  border-color: var(--accent);
+}
+
+.mode-icon {
+  font-size: 3rem;
+  margin-bottom: 10px;
+}
+
+.mode-label {
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.mode-desc {
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+.how-to-play {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  text-align: left;
+  margin-top: 40px;
+}
+
+.how-to-play h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: var(--text);
+}
+
+.how-to-play ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.how-to-play li {
+  padding: 8px 0;
+  padding-left: 24px;
+  position: relative;
+  color: var(--muted);
+}
+
+.how-to-play li:before {
+  content: "⚽";
+  position: absolute;
+  left: 0;
+}
+
+/* Online Mode Selection */
+.online-mode-selection {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.back-button {
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 1rem;
+  margin-bottom: 20px;
+  padding: 8px 12px;
+  transition: color 0.2s;
+}
+
+.back-button:hover {
+  color: var(--accent);
+}
+
+.online-options {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.online-option-button {
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  color: var(--text);
+}
+
+.online-option-button:hover {
+  border-color: var(--accent);
+  transform: translateX(5px);
+  box-shadow: 0 4px 12px rgba(33, 161, 255, 0.25);
+}
+
+.option-icon {
+  font-size: 2rem;
+  min-width: 50px;
+  text-align: center;
+}
+
+.option-label {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 4px;
+  color: var(--text);
+}
+
+.option-desc {
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+/* Lobby Form */
+.lobby-form {
+  margin-top: 30px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.form-input {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+  background: var(--surface);
+  color: var(--text);
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.lobby-code-input {
+  text-transform: uppercase;
+  font-family: monospace;
+  font-size: 1.2rem;
+  text-align: center;
+  letter-spacing: 3px;
+}
+
+.auto-join-notice {
+  margin-top: 8px;
+  color: var(--success);
+  font-size: 0.9rem;
+}
+
+.submit-button {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.error-message-inline {
+  background: #7f1d1d;
+  border: 2px solid var(--danger);
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 20px;
+  color: #fca5a5;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* Lobby Waiting Room */
+.lobby-waiting-room {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.lobby-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+/* Use shared lobby-code-display styles from index.css */
+
+.players-section {
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.players-section h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: var(--text);
+}
+
+.players-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.player-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  background: var(--bg);
+  border-radius: 8px;
+  color: var(--text);
+}
+
+.player-name {
+  font-weight: 600;
+  flex: 1;
+  color: var(--text);
+}
+
+.host-badge {
+  background: #fbbf24;
+  color: #78350f;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.you-badge {
+  color: var(--accent);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.lobby-status {
+  margin-bottom: 20px;
+}
+
+.waiting-message,
+.ready-message {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  color: var(--text);
+}
+
+.ready-message {
+  background: #064e3b;
+  border-color: var(--success);
+  color: #6ee7b7;
+}
+
+.hint {
+  font-size: 0.9rem;
+  color: var(--muted);
+  margin-top: 8px;
+}
+
+.start-button {
+  width: 100%;
+  padding: 15px;
+  font-size: 1.1rem;
+}
+
+/* Secret Player Selection */
+.secret-player-selection {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.selection-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.selection-header h2 {
+  font-size: 2rem;
+  color: var(--text);
+  margin-bottom: 10px;
+}
+
+.selection-instructions {
+  font-size: 1.1rem;
+  color: var(--muted);
+}
+
+.selected-player-display {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  padding: 20px;
+  border-radius: 12px;
+  margin: 20px 0;
+}
+
+.selected-player-name {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.waiting-opponent {
+  text-align: center;
+  padding: 40px;
+}
+
+.waiting-opponent {
+  text-align: center;
+  padding: 40px;
+}
+
+.waiting-opponent p {
+  font-size: 1.2rem;
+  color: var(--muted);
+  margin-top: 20px;
+}
+
+.selected-preview {
+  background: #1e3a5f;
+  border: 2px solid var(--accent);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.preview-label {
+  font-weight: 600;
+  color: var(--accent);
+  font-size: 1rem;
+  white-space: nowrap;
+}
+
+.preview-name {
+  flex: 1;
+  font-size: clamp(1.1rem, 4vw, 1.3rem);
+  font-weight: bold;
+  color: var(--text);
+  min-width: 150px;
+}
+
+.preview-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* Mobile responsive improvements for secret player selection */
+@media (max-width: 768px) {
+  .selected-preview {
+    padding: 16px;
+    gap: 12px;
+  }
+
+  .preview-label {
+    font-size: 0.9rem;
+  }
+
+  .preview-name {
+    flex: 1 1 100%;
+    font-size: 1.1rem;
+    text-align: left;
+  }
+
+  .preview-actions {
+    flex: 1 1 100%;
+    width: 100%;
+    gap: 8px;
+  }
+
+  .preview-actions .btn {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .selected-preview {
+    padding: 12px;
+    gap: 10px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .preview-label {
+    font-size: 0.85rem;
+  }
+
+  .preview-name {
+    font-size: 1rem;
+    width: 100%;
+  }
+
+  .preview-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .preview-actions .btn {
+    width: 100%;
+    padding: 0.875rem;
+    font-size: 1rem;
+  }
+}
+
+.player-selection-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.selection-card {
+  background: var(--surface);
+  border: 3px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.3s;
+  position: relative;
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text);
+}
+
+.selection-card:hover:not(.disabled) {
+  border-color: var(--accent);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(33, 161, 255, 0.3);
+}
+
+.selection-card.selected {
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+  color: white;
+  border-color: var(--accent);
+}
+
+.selection-card.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.selection-card-content {
+  text-align: center;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.selection-card-image {
+  width: 80px;
+  height: 80px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--bg);
+}
+
+.selection-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.selection-card-name {
+  font-weight: 600;
+  font-size: 0.95rem;
+  line-height: 1.3;
+}
+
+.selection-check {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: 1.5rem;
+}
+
+/* Game Board */
+.guess-who-gameplay {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.secret-player-card-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 12px;
+  margin-bottom: 12px;
+  flex-shrink: 0;
+}
+
+/* Selection Mode Styles */
+.selection-mode-header {
+  text-align: center;
+  margin-bottom: 20px;
+  padding: 0 10px;
+}
+
+.selection-mode-header h2 {
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  margin-bottom: 10px;
+  color: var(--text);
+}
+
+.selection-mode-header .selection-instructions {
+  font-size: clamp(0.9rem, 2vw, 1rem);
+  color: var(--muted);
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+.selection-confirmation {
+  background: linear-gradient(135deg, #1e3a5f 0%, #0f172a 100%);
+  border: 2px solid var(--accent);
+  border-radius: 12px;
+  padding: 16px;
+  margin: 20px auto;
+  max-width: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.selected-player-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 200px;
+}
+
+.selected-label {
+  font-weight: 600;
+  color: var(--accent);
+  font-size: 1rem;
+}
+
+.selected-name {
+  font-size: clamp(1.1rem, 3vw, 1.3rem);
+  font-weight: bold;
+  color: var(--text);
+}
+
+.selection-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.selection-actions .btn {
+  padding: 10px 20px;
+  font-size: 0.95rem;
+  min-width: 100px;
+}
+
+/* Compact selection confirmation with icons only */
+.selection-confirmation-compact {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 12px 20px;
+  background: linear-gradient(135deg, #1e3a5f 0%, #0f172a 100%);
+  border: 2px solid var(--accent);
+  border-radius: 50px;
+  margin: 16px auto;
+  max-width: fit-content;
+}
+
+.selected-player-name {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.selection-icons {
+  display: flex;
+  gap: 8px;
+  margin-left: 4px;
+}
+
+.icon-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  font-size: 1.3rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.icon-btn-confirm {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+}
+
+.icon-btn-confirm:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.5);
+}
+
+.icon-btn-cancel {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: white;
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+}
+
+.icon-btn-cancel:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.5);
+}
+
+.icon-btn:active {
+  transform: scale(0.95);
+}
+
+.waiting-message {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 20px;
+  background: var(--surface);
+  border-radius: 8px;
+  margin: 20px auto;
+  max-width: 400px;
+}
+
+.waiting-message p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 1rem;
+}
+
+/* Selection state for cards */
+.board-card.selecting {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(33, 161, 255, 0.3);
+  transform: translateY(-4px);
+}
+
+.board-card.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.selection-indicator {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: var(--accent);
+  color: white;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  font-weight: bold;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  z-index: 10;
+}
+
+/* Mobile responsive for selection mode */
+@media (max-width: 768px) {
+  .selection-confirmation {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 12px;
+  }
+
+  .selected-player-info {
+    justify-content: center;
+    min-width: unset;
+  }
+
+  .selection-actions {
+    width: 100%;
+  }
+
+  .selection-confirmation-compact {
+    padding: 10px 16px;
+    gap: 10px;
+  }
+
+  .selected-player-name {
+    font-size: 1rem;
+  }
+
+  .icon-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 1.1rem;
+  }
+
+  .btn-new-round {
+    padding: 6px !important;
+    font-size: 0.75rem !important;
+    min-width: auto;
+    justify-content: center;
+  }
+
+  .new-round-text-full {
+    display: none !important;
+  }
+
+  .new-round-text-short {
+    display: inline !important;
+  }
+
+  .game-info {
+    gap: 16px;
+  }
+
+  .selection-actions .btn {
+    flex: 1;
+  }
+}
+
+@media (max-width: 480px) {
+  .selection-mode-header {
+    margin-bottom: 16px;
+  }
+
+  .selection-confirmation {
+    padding: 12px;
+    gap: 12px;
+  }
+
+  .selected-player-info {
+    flex-direction: column;
+    text-align: center;
+    gap: 6px;
+  }
+
+  .selection-actions {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .selection-actions .btn {
+    width: 100%;
+    padding: 12px;
+  }
+
+  .selection-indicator {
+    width: 28px;
+    height: 28px;
+    font-size: 1rem;
+  }
+
+  .btn-new-round {
+    padding: 6px !important;
+    font-size: 0.75rem !important;
+    min-width: auto;
+    justify-content: center;
+  }
+
+  .new-round-text-full {
+    display: none !important;
+  }
+
+  .new-round-text-short {
+    display: inline !important;
+  }
+
+  .game-info {
+    gap: 12px;
+  }
+}
+
+.secret-player-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.secret-player-card {
+  width: clamp(100px, 12vw, 140px);
+  height: clamp(133px, 16vw, 187px);
+  aspect-ratio: 3 / 4;
+  background: linear-gradient(135deg, #1e3a5f 0%, #0f172a 100%);
+  border: 4px solid #fbbf24;
+  border-radius: 10px;
+  padding: 10px 8px 8px 8px;
+  box-shadow: 0 6px 20px rgba(251, 191, 36, 0.5), 0 0 0 2px #92400e;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+}
+
+.secret-player-card::before {
+  content: "★";
+  position: absolute;
+  top: -12px;
+  right: -12px;
+  font-size: 1.8rem;
+  color: #fbbf24;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+  z-index: 10;
+}
+
+.secret-player-card .card-image-placeholder {
+  width: 100%;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #0f172a;
+  border: 2px solid #fbbf24;
+  border-radius: 6px;
+  margin-bottom: 6px;
+  overflow: hidden;
+}
+
+.secret-player-card .card-name {
+  font-weight: 700;
+  font-size: clamp(0.7rem, 1vw, 0.9rem);
+  line-height: 1.1;
+  text-align: center;
+  color: #fbbf24;
+  word-break: break-word;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  width: 100%;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.secret-player-banner {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  padding: 8px 20px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 10px;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+  flex-shrink: 0;
+}
+
+.banner-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  opacity: 0.9;
+}
+
+.banner-player-name {
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.game-info {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-bottom: 8px;
+  flex-shrink: 0;
+}
+
+.info-item {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.info-label {
+  font-weight: 600;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.info-value {
+  font-weight: 700;
+  color: var(--text);
+  font-size: 0.9rem;
+}
+
+.players-info-button {
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+  width: 18px;
+  height: 18px;
+  font-size: 0.7rem;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  margin-left: 6px;
+  padding: 0;
+}
+
+.players-info-button:hover {
+  background: var(--accent);
+  color: white;
+  transform: scale(1.05);
+}
+
+.btn-new-round {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 4px 10px;
+  border-radius: 5px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 4px rgba(102, 126, 234, 0.3);
+  margin-left: auto;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.new-round-icon {
+  display: inline;
+}
+
+.new-round-text-full {
+  display: inline;
+}
+
+.new-round-text-short {
+  display: none;
+}
+
+.btn-new-round:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(102, 126, 234, 0.4);
+}
+
+.btn-new-round:active {
+  transform: translateY(0);
+}
+
+/* Players Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.players-modal {
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.modal-header h3 {
+  margin: 0;
+  color: var(--text);
+  font-size: 1.2rem;
+}
+
+.modal-close-button {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: transparent;
+  border: 2px solid var(--border);
+  color: var(--text);
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.modal-close-button:hover {
+  background: var(--danger);
+  border-color: var(--danger);
+  color: white;
+}
+
+.modal-players-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.modal-player-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.modal-player-item .player-name {
+  font-weight: 600;
+  color: var(--text);
+}
+
+.modal-player-item .you-badge {
+  background: var(--accent);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.game-instructions {
+  text-align: center;
+  margin-bottom: 10px;
+  padding: 6px;
+  background: #1e3a5f;
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  color: var(--accent);
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
+
+/* Guess Who Board with Flip Cards */
+.guess-who-board {
+  background: linear-gradient(135deg, #475569 0%, #334155 100%);
+  border: 5px solid #1e293b;
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.board-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8px;
+  width: 100%;
+}
+
+.board-card-container {
+  perspective: 1000px;
+  height: clamp(100px, 13vh, 150px);
+  width: 100%;
+  aspect-ratio: 3 / 4;
+}
+
+.board-card {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  padding: 0;
+}
+
+.board-card.flipped {
+  transform: rotateX(45deg);
+}
+
+.card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+}
+
+.card-front,
+.card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 6px 6px 6px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.card-front {
+  background: var(--surface);
+  border: 2px solid var(--border);
+  transform: rotateX(0deg);
+}
+
+.board-card:hover .card-front {
+  border-color: var(--accent);
+  box-shadow: 0 4px 8px rgba(33, 161, 255, 0.4);
+}
+
+.board-card.flipped .card-front {
+  transform: rotateX(90deg);
+}
+
+.card-back {
+  background: linear-gradient(135deg, #7f1d1d 0%, #991b1b 100%);
+  color: white;
+  transform: rotateX(-90deg);
+  border: 2px solid #5f1515;
+  justify-content: center;
+}
+
+.board-card.flipped .card-back {
+  transform: rotateX(0deg);
+}
+
+.card-image-placeholder {
+  width: 100%;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+  border-radius: 4px;
+  margin-bottom: 4px;
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  overflow: hidden;
+  position: relative;
+}
+
+.player-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.no-image {
+  font-size: clamp(2rem, 4vw, 3rem);
+  color: var(--muted);
+  font-weight: bold;
+}
+
+.card-name {
+  font-weight: 700;
+  font-size: clamp(0.55rem, 0.8vw, 0.7rem);
+  line-height: 1.1;
+  text-align: center;
+  color: var(--text);
+  word-break: break-word;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  width: 100%;
+  max-height: 2.4em;
+}
+
+.card-back-content {
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  font-weight: bold;
+  color: white;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  line-height: 1;
+}
+
+.card-back-content::before {
+  content: "⚽";
+  font-size: clamp(1.2rem, 2.5vw, 2rem);
+  line-height: 1;
+}
+
+.secret-indicator {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  font-size: 1rem;
+  color: #fbbf24;
+}
+
+.board-card.is-secret .card-front {
+  background: linear-gradient(135deg, #92400e 0%, #78350f 100%);
+  border-color: #fbbf24;
+}
+
+.board-card.is-secret .card-name {
+  color: #fef3c7;
+}
+
+/* Players Info */
+.players-info {
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  padding: 10px;
+  max-width: 400px;
+  margin: 0 auto 10px auto;
+  flex-shrink: 0;
+}
+
+.players-info h3 {
+  margin-top: 0;
+  margin-bottom: 8px;
+  color: var(--text);
+  font-size: 0.95rem;
+}
+
+.players-list-small {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.player-item-small {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 8px;
+  background: var(--bg);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 0.85rem;
+}
+
+/* Common Elements */
+.btn {
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, var(--accent-dark) 0%, var(--accent) 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(33, 161, 255, 0.4);
+}
+
+.btn-secondary {
+  background: var(--surface);
+  color: var(--text);
+  border: 2px solid var(--border);
+}
+
+.btn-secondary:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.spinner {
+  border: 3px solid var(--border);
+  border-top: 3px solid var(--accent);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+}
+
+.loading p {
+  margin-top: 20px;
+  font-size: 1.1rem;
+  color: var(--muted);
+}
+
+.error-container {
+  max-width: 500px;
+  margin: 60px auto;
+  padding: 40px;
+  background: var(--surface);
+  border: 2px solid var(--danger);
+  border-radius: 12px;
+  text-align: center;
+}
+
+.error-container h2 {
+  color: var(--danger);
+  margin-top: 0;
+}
+
+.error-container p {
+  color: var(--muted);
+  margin-bottom: 20px;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .game-title {
+    font-size: 2rem;
+  }
+
+  .mode-options {
+    flex-direction: column;
+  }
+
+  .guess-who-gameplay {
+    padding: 8px;
+  }
+
+  .guess-who-board {
+    padding: 10px;
+    border-width: 4px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+  }
+
+  .board-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+  }
+
+  .board-card-container {
+    height: clamp(110px, 14vh, 145px);
+  }
+
+  .card-front,
+  .card-back {
+    padding: 6px 5px 5px 5px;
+    border-width: 2px;
+    border-radius: 5px;
+  }
+
+  .card-name {
+    font-size: clamp(0.55rem, 0.9vw, 0.7rem);
+    line-height: 1.1;
+  }
+
+  .card-back-content {
+    font-size: 1.5rem;
+  }
+
+  .secret-player-card {
+    width: clamp(120px, 14vw, 160px);
+    height: clamp(160px, 18.7vw, 213px);
+  }
+
+  .secret-player-banner {
+    flex-direction: row;
+    gap: 8px;
+    padding: 6px 12px;
+    margin-bottom: 8px;
+  }
+
+  .banner-label {
+    font-size: 0.75rem;
+  }
+
+  .banner-player-name {
+    font-size: 0.9rem;
+  }
+
+  .game-instructions {
+    font-size: 0.75rem;
+    padding: 5px;
+    margin-bottom: 8px;
+  }
+
+  .player-selection-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 10px;
+  }
+
+  .players-info {
+    font-size: 0.85rem;
+    padding: 8px;
+    margin-bottom: 8px;
+  }
+
+  .secret-indicator {
+    font-size: 0.85rem;
+    top: 3px;
+    right: 3px;
+  }
+}
+
+@media (max-width: 480px) {
+  .guess-who-gameplay {
+    padding: 6px;
+  }
+
+  .guess-who-board {
+    padding: 8px;
+    border-width: 3px;
+  }
+
+  .board-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 5px;
+  }
+
+  .board-card-container {
+    height: clamp(70px, 9vh, 95px);
+  }
+
+  .card-name {
+    font-size: clamp(0.55rem, 0.85vw, 0.65rem);
+    line-height: 1.05;
+  }
+
+  .card-back-content {
+    font-size: 1.3rem;
+  }
+
+  .secret-player-banner {
+    padding: 5px 10px;
+  }
+
+  .banner-label {
+    font-size: 0.7rem;
+  }
+
+  .banner-player-name {
+    font-size: 0.85rem;
+  }
+
+  .code-value {
+    font-size: 2rem;
+    letter-spacing: 4px;
+  }
+
+  .game-instructions {
+    font-size: 0.7rem;
+    padding: 4px;
+  }
+}
+
+/* Extra small screens - ensure board fits */
+@media (max-width: 380px) {
+  .guess-who-board {
+    padding: 6px;
+  }
+
+  .board-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 4px;
+  }
+
+  .board-card-container {
+    height: clamp(65px, 8.5vh, 90px);
+  }
+
+  .card-name {
+    font-size: clamp(0.52rem, 0.8vw, 0.62rem);
+  }
+
+  .card-back-content {
+    font-size: 1.2rem;
+  }
+}
+
+/* Landscape mode on mobile */
+@media (max-height: 700px) and (orientation: landscape) {
+  .guess-who-gameplay {
+    padding: 4px;
+  }
+
+  .guess-who-board {
+    padding: 6px;
+    margin-bottom: 6px;
+  }
+
+  .board-card-container {
+    height: clamp(60px, 10vh, 75px);
+  }
+
+  .secret-player-banner {
+    padding: 4px 8px;
+    margin-bottom: 5px;
+  }
+
+  .banner-player-name {
+    font-size: 0.8rem;
+  }
+
+  .banner-label {
+    font-size: 0.65rem;
+  }
+
+  .game-instructions {
+    display: none; /* Hide instructions in landscape to save space */
+  }
+
+  .players-info {
+    padding: 6px;
+    margin-bottom: 5px;
+  }
+
+  .players-info h3 {
+    font-size: 0.85rem;
+    margin-bottom: 5px;
+  }
+
+  .player-item-small {
+    padding: 4px 6px;
+    font-size: 0.75rem;
+  }
+}

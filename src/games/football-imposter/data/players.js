@@ -1,4 +1,2 @@
-// Import from shared JSON file
-import footballPlayers from './players.json';
-
-export const FOOTBALL_PLAYERS = footballPlayers;
+// Re-export from shared data
+export { FOOTBALL_PLAYERS } from '../../../shared/data/players.js';

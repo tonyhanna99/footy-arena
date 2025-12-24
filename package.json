@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "sync-players": "node scripts/sync-players.cjs",
+    "fetch-wiki-images": "node scripts/fetch-all-wiki-images.cjs"
   },
   "dependencies": {
     "react": "^19.1.1",

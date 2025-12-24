@@ -6,6 +6,11 @@ const games = [
     path: '/games/football-imposter',
     description: 'A social deduction game where players try to identify the imposters who don\'t know the secret football player.',
   },
+  {
+    name: 'Football Guess Who?',
+    path: '/games/guess-who',
+    description: 'Play the classic Guess Who board game with football players. Ask yes/no questions and flip cards to find your opponent\'s secret player!',
+  },
 ];
 
 function Home() {

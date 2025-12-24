@@ -97,7 +97,7 @@ export function useGame() {
 
     // Generate new round
     const newPlayers = assignRoles(filteredNames, imposters);
-    const newSecretWord = FOOTBALL_PLAYERS[getRandomIndex(FOOTBALL_PLAYERS)];
+    const newSecretWord = FOOTBALL_PLAYERS[getRandomIndex(FOOTBALL_PLAYERS)].name;
     const newRoundId = generateId();
     // Pick a random player to give the first clue
     const firstClueGiverIndex = getRandomIndex(newPlayers);
