@@ -1,5 +1,6 @@
 import { NavLink, Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { HamburgerMenu } from '../shared/components';
 
 const games = [
   {
@@ -12,13 +13,16 @@ const games = [
     path: '/games/guess-who',
     icon: '❓',
   },
+  {
+    name: 'Football Alphabet',
+    path: '/games/football-alphabet',
+    icon: '🔤',
+  },
 ];
 
 function Sidebar() {
   // Default to collapsed on mobile, expanded on desktop
   const [isExpanded, setIsExpanded] = useState(false);
-  // Counter to force re-render and clear stuck states
-  const [buttonKey, setButtonKey] = useState(0);
   
   useEffect(() => {
     // Set initial state based on screen size
@@ -28,8 +32,6 @@ function Sidebar() {
 
   const toggleSidebar = () => {
     setIsExpanded(!isExpanded);
-    // Force re-render to clear any stuck focus/hover states
-    setButtonKey(prev => prev + 1);
   };
 
   const handleNavClick = () => {
@@ -41,31 +43,8 @@ function Sidebar() {
 
   return (
     <div className={`sidebar ${isExpanded ? 'expanded' : 'collapsed'}`} style={{ position: 'relative' }}>
-      {/* Toggle button positioned on the border */}
-      <button 
-        key={buttonKey}
-        onClick={toggleSidebar}
-        className="sidebar-toggle-border"
-        aria-label={isExpanded ? 'Collapse sidebar' : 'Expand sidebar'}
-      >
-        {isExpanded ? (
-          <span style={{ fontSize: '32px', lineHeight: '1' }}>×</span>
-        ) : (
-          <div style={{ 
-            display: 'flex', 
-            flexDirection: 'column', 
-            justifyContent: 'center', 
-            alignItems: 'center', 
-            gap: '3px',
-            width: '20px',
-            height: '20px'
-          }}>
-            <div style={{ width: '16px', height: '2px', backgroundColor: 'currentColor' }}></div>
-            <div style={{ width: '16px', height: '2px', backgroundColor: 'currentColor' }}></div>
-            <div style={{ width: '16px', height: '2px', backgroundColor: 'currentColor' }}></div>
-          </div>
-        )}
-      </button>
+      {/* Hamburger Menu Button */}
+      <HamburgerMenu isExpanded={isExpanded} onClick={toggleSidebar} />
 
       <div className="sidebar-header">
         {isExpanded ? (

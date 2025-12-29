@@ -1,0 +1,62 @@
+/* Game Header Component - Shared across all games */
+.game-header-component {
+  margin-bottom: 2rem;
+}
+
+.game-header-component.centered {
+  text-align: center;
+}
+
+.game-header-icon {
+  font-size: 4rem;
+  margin-bottom: 0.5rem;
+  line-height: 1;
+}
+
+.game-header-title {
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--accent);
+  margin: 0 0 0.5rem 0;
+  line-height: 1.2;
+}
+
+.game-header-subtitle {
+  color: var(--muted);
+  font-size: 1.15rem;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .game-header-component {
+    margin-bottom: 1.5rem;
+  }
+
+  .game-header-icon {
+    font-size: 3rem;
+  }
+
+  .game-header-title {
+    font-size: 2.25rem;
+  }
+
+  .game-header-subtitle {
+    font-size: 1.05rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .game-header-icon {
+    font-size: 2.5rem;
+  }
+
+  .game-header-title {
+    font-size: 2rem;
+  }
+
+  .game-header-subtitle {
+    font-size: 1rem;
+  }
+}

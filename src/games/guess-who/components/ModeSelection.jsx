@@ -1,24 +1,22 @@
 import React from 'react';
+import { GameHeader, ModeSelectionButtons } from '../../../shared/components';
 
 function ModeSelection({ onSelectMode }) {
   return (
     <div className="guess-who-mode-selection">
       <div className="mode-container">
-        <h1 className="game-title">Football Guess Who?</h1>
-        <p className="game-description">
-          Play the classic Guess Who game with football players!
-        </p>
+        <GameHeader 
+          title="Football Guess Who?"
+          subtitle="Play the classic Guess Who game with football players!"
+          icon="❓"
+        />
 
-        <div className="mode-options">
-          <button
-            onClick={() => onSelectMode('online')}
-            className="mode-button mode-button-online"
-          >
-            <div className="mode-icon">🌐</div>
-            <div className="mode-label">Online Mode</div>
-            <div className="mode-desc">Play with a friend online</div>
-          </button>
-        </div>
+        <ModeSelectionButtons
+          onSelectOnline={() => onSelectMode('online')}
+          showLocal={false}
+          onlineLabel="Online Mode"
+          onlineDesc="Play with a friend online"
+        />
 
         <div className="how-to-play">
           <h3>How to Play</h3>

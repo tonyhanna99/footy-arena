@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useGame } from './hooks/useGame.js';
 import { useSocket } from './hooks/useSocket.js';
+import { GameHeader, ModeSelectionButtons } from '../../shared/components';
 import SetupForm from './components/SetupForm.jsx';
 import Dashboard from './components/Dashboard.jsx';
 import ModeSelection from './components/ModeSelection.jsx';
@@ -123,18 +124,20 @@ function Game() {
 
   return (
     <div>
-      <div className="game-header">
-        <h1 className="game-title">Football Imposter</h1>
-        {screen === 'dashboard' && gameMode === 'local' && (
-          <button onClick={handleNewRound} className="btn btn-secondary">
-            New Round
-          </button>
-        )}
-      </div>
-
       {/* Mode Selection Screen */}
       {!gameMode && (
-        <ModeSelection onSelectMode={handleSelectMode} />
+        <div className="mode-selection">
+          <GameHeader 
+            title="Football Imposter"
+            subtitle="Find the Imposter in the group by giving clues about footballers!"
+            icon="🕵️"
+          />
+          <h2>Choose Game Mode</h2>
+          <ModeSelectionButtons
+            onSelectLocal={() => handleSelectMode('local')}
+            onSelectOnline={() => handleSelectMode('online')}
+          />
+        </div>
       )}
 
       {/* Local Game Mode */}
@@ -165,7 +168,7 @@ function Game() {
 
       {/* Online Game Mode */}
       {gameMode === 'online' && (
-        <>
+        <div className="mode-selection">
           {error && (
             <div className="error-banner">
               {error}
@@ -208,7 +211,7 @@ function Game() {
               onBackToLobby={handleBackToLobby}
             />
           )}
-        </>
+        </div>
       )}
     </div>
   );

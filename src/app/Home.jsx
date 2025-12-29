@@ -11,6 +11,11 @@ const games = [
     path: '/games/guess-who',
     description: 'Play the classic Guess Who board game with football players. Ask yes/no questions and flip cards to find your opponent\'s secret player!',
   },
+  {
+    name: 'Football Alphabet',
+    path: '/games/football-alphabet',
+    description: 'Test your football knowledge from A to Z! Race against time to fill categories with football terms starting with a random letter. Unique answers score more points!',
+  },
 ];
 
 function Home() {
