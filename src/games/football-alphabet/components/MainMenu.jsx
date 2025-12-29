@@ -166,6 +166,14 @@ const MainMenu = ({ onCreateLobby, onJoinLobby, isConnected, lobbyError }) => {
         subtitle="Test your football knowledge from A to Z!"
         icon="🔤"
       />
+      
+      {lobbyError && (
+        <div className="lobby-error-alert" style={{ marginBottom: '1.5rem' }}>
+          <span className="error-icon">⚠️</span>
+          <span>{lobbyError}</span>
+        </div>
+      )}
+      
       <div className="mode-selection-buttons">
         <button 
           className="btn btn-primary mode-btn"

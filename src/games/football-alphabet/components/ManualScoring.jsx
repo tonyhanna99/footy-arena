@@ -66,14 +66,12 @@ const ManualScoring = ({
           {categories.map((category) => {
             const answer = selectedPlayerAnswers[category.id];
             const hasAnswer = answer && answer.trim() !== '';
-            const startsWithLetter = hasAnswer && answer.toUpperCase().startsWith(currentLetter);
 
             return (
               <div key={category.id} className="answer-item-compact">
                 <div className="answer-category-label">{category.label}</div>
-                <div className={`answer-text ${!hasAnswer ? 'no-answer' : !startsWithLetter ? 'invalid' : ''}`}>
+                <div className="answer-text">
                   {hasAnswer ? answer : 'No answer'}
-                  {!startsWithLetter && hasAnswer && <span className="invalid-badge">Invalid</span>}
                 </div>
               </div>
             );
