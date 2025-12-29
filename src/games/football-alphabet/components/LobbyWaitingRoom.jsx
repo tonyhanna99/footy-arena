@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import LobbyCodeDisplay from '../../../shared/components/LobbyCodeDisplay.jsx';
-import { FOOTBALL_CATEGORIES } from '../data/categories.js';
 
 const LobbyWaitingRoom = ({ lobbyCode, players, isHost, onStartGame, onLeaveLobby }) => {
   const canStart = players.length >= 2;

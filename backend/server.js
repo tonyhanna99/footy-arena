@@ -471,7 +471,10 @@ io.on('connection', (socket) => {
       
       if (timeRemaining <= 0) {
         clearInterval(lobby.timer);
-        endAlphabetRound(socket.lobbyCode);
+        // Give clients 1 second to auto-submit before ending the round
+        setTimeout(() => {
+          endAlphabetRound(socket.lobbyCode);
+        }, 1000);
       }
     }, 1000);
     
@@ -560,7 +563,10 @@ io.on('connection', (socket) => {
       
       if (timeRemaining <= 0) {
         clearInterval(lobby.timer);
-        endAlphabetRound(socket.lobbyCode);
+        // Give clients 1 second to auto-submit before ending the round
+        setTimeout(() => {
+          endAlphabetRound(socket.lobbyCode);
+        }, 1000);
       }
     }, 1000);
     

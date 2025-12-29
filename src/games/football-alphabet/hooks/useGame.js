@@ -138,6 +138,14 @@ export const useGame = () => {
     };
   }, [socket]);
 
+  // Auto-submit when timer reaches 0
+  useEffect(() => {
+    if (timeRemaining === 0 && gameState === 'playing' && !hasSubmitted) {
+      submitAnswers(playerAnswers);
+      setHasSubmitted(true);
+    }
+  }, [timeRemaining, gameState, hasSubmitted, playerAnswers, submitAnswers]);
+
   // Handle answer change
   const handleAnswerChange = useCallback((categoryId, value) => {
     setPlayerAnswers((prev) => ({

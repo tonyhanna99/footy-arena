@@ -68,7 +68,7 @@ const GameBoard = ({
         </div>
       </div>
 
-      {/* Submit Button */}
+      {/* Status Messages */}
       <div className="game-actions">
         {hasSubmitted ? (
           <div className="status-message success">
@@ -81,18 +81,13 @@ const GameBoard = ({
         ) : isTimeUp ? (
           <div className="status-message">
             <strong>Time's Up!</strong>
-            <p>Submitting your answers...</p>
+            <p>Auto-submitting your answers...</p>
           </div>
         ) : (
-          <button
-            onClick={onSubmit}
-            disabled={Object.keys(playerAnswers).length === 0}
-            className="btn btn-primary btn-large"
-          >
-            {Object.keys(playerAnswers).length === 0
-              ? 'Enter at least one answer'
-              : `Submit Answers (${Object.keys(playerAnswers).length}/${categories.length})`}
-          </button>
+          <div className="status-message info">
+            <strong>Keep typing!</strong>
+            <p>Answers will auto-submit when time runs out</p>
+          </div>
         )}
       </div>
       
