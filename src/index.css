@@ -690,7 +690,7 @@ body {
   }
 
   .sidebar.collapsed + .main-content .content-area {
-    padding: 2rem 1rem;
+    padding: 4.5rem 1rem 2rem;
     width: 100%;
   }
 
@@ -705,7 +705,7 @@ body {
   }
 
   .content-area {
-    padding: 1rem;
+    padding: 4.5rem 1rem 1rem;
   }
 
   .players-grid {
