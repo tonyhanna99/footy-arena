@@ -34,6 +34,7 @@ export const useGame = () => {
   // Scores state
   const [roundScores, setRoundScores] = useState([]);
   const [totalScores, setTotalScores] = useState({});
+  const [hasSubmittedScores, setHasSubmittedScores] = useState(false);
 
   // Socket event listeners
   useEffect(() => {
@@ -102,13 +103,17 @@ export const useGame = () => {
     });
 
     socket.on('manual-scores-submitted', (data) => {
-      // You could track who has submitted scores if needed
       console.log('Player submitted manual scores:', data);
+      // Lock the scoring UI for the current player (covers reconnect case too)
+      if (data.playerId === socket.id) {
+        setHasSubmittedScores(true);
+      }
     });
 
     socket.on('scores-updated', (data) => {
       setRoundScores(data.roundScores);
       setTotalScores(data.totalScores);
+      setHasSubmittedScores(false);
       setGameState('scores');
     });
 
@@ -118,6 +123,7 @@ export const useGame = () => {
       setTimeRemaining(data.duration);
       setPlayerAnswers({});
       setHasSubmitted(false);
+      setHasSubmittedScores(false);
       setAllAnswers({});
       setGameState('playing');
     });
@@ -209,6 +215,7 @@ export const useGame = () => {
     // Scores
     roundScores,
     totalScores,
+    hasSubmittedScores,
     
     // Actions
     handleCreateLobby,

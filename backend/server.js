@@ -363,8 +363,21 @@ io.on('connection', (socket) => {
     
     if (existingPlayer) {
       console.log(`${playerName} rejoining alphabet lobby: ${lobbyCode}`);
+      const oldId = existingPlayer.id;
       existingPlayer.socketId = socket.id;
       existingPlayer.id = socket.id;
+
+      // Keep lobby.host in sync when the host reconnects with a new socket id
+      if (lobby.host === oldId) {
+        lobby.host = socket.id;
+      }
+
+      // Migrate any in-progress score submission from the old socket id to the new one
+      if (lobby.manualScoresSubmitted && lobby.manualScoresSubmitted[oldId] !== undefined) {
+        lobby.manualScoresSubmitted[socket.id] = lobby.manualScoresSubmitted[oldId];
+        delete lobby.manualScoresSubmitted[oldId];
+        console.log(`Migrated score submission for ${playerName} from ${oldId} to ${socket.id}`);
+      }
       
       socket.join(lobbyCode);
       socket.lobbyCode = lobbyCode;
@@ -385,6 +398,32 @@ io.on('connection', (socket) => {
         socket.emit('round-ended', {
           allAnswers: lobby.playerAnswers,
         });
+        // Tell the client if they already submitted so the UI locks correctly
+        if (lobby.manualScoresSubmitted[socket.id] !== undefined) {
+          socket.emit('manual-scores-submitted', { playerId: socket.id, submitted: true, alreadySubmitted: true });
+        }
+        // Re-check allSubmitted in case everyone else submitted while this player was reconnecting
+        const allSubmitted = lobby.players.every(p => lobby.manualScoresSubmitted[p.id] !== undefined);
+        if (allSubmitted) {
+          const roundScores = {};
+          lobby.players.forEach(player => {
+            const playerScores = lobby.manualScoresSubmitted[player.id];
+            roundScores[player.id] = Object.values(playerScores).reduce((sum, score) => {
+              const val = Number(score);
+              return sum + (isNaN(val) ? 0 : val);
+            }, 0);
+          });
+          lobby.players.forEach(player => {
+            if (!lobby.totalScores[player.id]) lobby.totalScores[player.id] = 0;
+            lobby.totalScores[player.id] += roundScores[player.id];
+          });
+          lobby.roundScores.push({ letter: lobby.currentLetter, scores: roundScores });
+          lobby.gameState = 'scores';
+          io.to(lobbyCode).emit('scores-updated', {
+            roundScores: lobby.roundScores,
+            totalScores: lobby.totalScores,
+          });
+        }
       } else if (lobby.gameState === 'scores') {
         socket.emit('scores-updated', {
           roundScores: lobby.roundScores,
@@ -508,7 +547,10 @@ io.on('connection', (socket) => {
       const roundScores = {};
       lobby.players.forEach(player => {
         const playerScores = lobby.manualScoresSubmitted[player.id];
-        roundScores[player.id] = Object.values(playerScores).reduce((sum, score) => sum + score, 0);
+        roundScores[player.id] = Object.values(playerScores).reduce((sum, score) => {
+          const val = Number(score);
+          return sum + (isNaN(val) ? 0 : val);
+        }, 0);
       });
       
       lobby.players.forEach(player => {

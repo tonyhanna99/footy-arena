@@ -30,6 +30,7 @@ const Game = () => {
     // Scores
     roundScores,
     totalScores,
+    hasSubmittedScores,
     
     // Actions
     handleCreateLobby,
@@ -88,6 +89,7 @@ const Game = () => {
           players={players}
           playerName={playerName}
           myAnswers={playerAnswers}
+          hasSubmitted={hasSubmittedScores}
           onSubmitScores={handleSubmitManualScores}
           onLeaveLobby={handleLeaveLobby}
         />

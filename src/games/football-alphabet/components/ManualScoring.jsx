@@ -7,12 +7,18 @@ const ManualScoring = ({
   players,
   playerName,
   myAnswers,
+  hasSubmitted: initialHasSubmitted = false,
   onSubmitScores,
   onLeaveLobby
 }) => {
   const [selectedPlayer, setSelectedPlayer] = useState(players[0]?.id);
   const [myScores, setMyScores] = useState({});
-  const [hasSubmitted, setHasSubmitted] = useState(false);
+  const [hasSubmitted, setHasSubmitted] = useState(initialHasSubmitted);
+
+  // Sync if the parent tells us we already submitted (e.g. after reconnect)
+  React.useEffect(() => {
+    if (initialHasSubmitted) setHasSubmitted(true);
+  }, [initialHasSubmitted]);
 
   const handleScoreSelect = (categoryId, value) => {
     setMyScores(prev => ({
