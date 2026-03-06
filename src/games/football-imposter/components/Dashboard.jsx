@@ -3,7 +3,7 @@ import RevealModal from './RevealModal.jsx';
 import FirstClueModal from './FirstClueModal.jsx';
 import { useEffect } from 'react';
 
-function Dashboard({ players, onRevealFor, onMarkRevealed, allPlayersRevealed, crewCount, imposterCount, firstClueGiver }) {
+function Dashboard({ players, onRevealFor, onMarkRevealed, allPlayersRevealed, crewCount, imposterCount, firstClueGiver, onNewRound }) {
   const [selectedPlayer, setSelectedPlayer] = useState(null);
   const [reveal, setReveal] = useState(null);
 
@@ -63,6 +63,15 @@ function Dashboard({ players, onRevealFor, onMarkRevealed, allPlayersRevealed, c
             </p>
             {firstClueGiverPlayer && (
               <p className="mt-2">First Clue: <strong>{firstClueGiverPlayer.name}</strong></p>
+            )}
+            {onNewRound && (
+              <button
+                className="btn btn-primary mt-4"
+                onClick={onNewRound}
+                type="button"
+              >
+                New Round
+              </button>
             )}
           </div>
         )}

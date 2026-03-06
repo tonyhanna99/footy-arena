@@ -161,6 +161,7 @@ function Game() {
               crewCount={crewCount}
               imposterCount={imposterCount}
               firstClueGiver={firstClueGiver}
+              onNewRound={handleNewRound}
             />
           )}
         </>
