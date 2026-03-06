@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { track } from '@vercel/analytics';
 
 const games = [
   {
@@ -33,7 +34,7 @@ function Home() {
           <div key={game.path} className="game-card">
             <h3 className="game-card-title">{game.name}</h3>
             <p className="game-card-description">{game.description}</p>
-            <Link to={game.path} className="btn btn-primary btn-large">
+            <Link to={game.path} className="btn btn-primary btn-large" onClick={() => track('game_opened', { game: game.name, source: 'home' })}>
               Play Now
             </Link>
           </div>

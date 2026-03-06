@@ -1,6 +1,7 @@
 import { NavLink, Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { HamburgerMenu } from '../shared/components';
+import { track } from '@vercel/analytics';
 
 const games = [
   {
@@ -86,6 +87,7 @@ function Sidebar() {
                 title={game.name}
                 onClick={(e) => {
                   handleNavClick();
+                  track('game_opened', { game: game.name, source: 'sidebar' });
                   // If already on this path, force a reload by navigating to same path
                   if (window.location.pathname === game.path) {
                     e.preventDefault();
