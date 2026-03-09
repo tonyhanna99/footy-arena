@@ -2,10 +2,12 @@ import { Outlet } from 'react-router-dom';
 import { Suspense } from 'react';
 import Sidebar from './Sidebar.jsx';
 import { Analytics } from '@vercel/analytics/react';
+import RouteSEO from './RouteSEO.jsx';
 
 function Layout() {
   return (
     <>
+      <RouteSEO />
       <div className="app-layout">
         <Sidebar />
         <main className="main-content">
