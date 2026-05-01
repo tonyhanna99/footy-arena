@@ -1,0 +1,21 @@
+.back-button-shared {
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 8px 12px;
+  transition: color 0.2s;
+  display: inline-block;
+  margin-bottom: 24px;
+}
+
+.back-button-shared:hover {
+  color: var(--accent);
+}
+
+@media (max-width: 600px) {
+  .back-button-shared {
+    margin-bottom: 32px;
+  }
+}

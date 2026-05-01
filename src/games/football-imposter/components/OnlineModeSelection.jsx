@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { BackButton } from '../../../shared/components';
 
 function OnlineModeSelection({ onCreateLobby, onJoinLobby, onBack, socketError }) {
   const [view, setView] = useState('choice'); // 'choice', 'create', 'join'
@@ -55,9 +56,7 @@ function OnlineModeSelection({ onCreateLobby, onJoinLobby, onBack, socketError }
   if (view === 'create') {
     return (
       <div className="online-mode-selection">
-        <button onClick={() => setView('choice')} className="btn btn-secondary back-btn">
-          ← Back
-        </button>
+        <BackButton onClick={() => setView('choice')} />
         <h2>Create Lobby</h2>
         <form onSubmit={handleCreateLobby} className="lobby-form">
           <div className="form-group">
@@ -93,9 +92,7 @@ function OnlineModeSelection({ onCreateLobby, onJoinLobby, onBack, socketError }
   if (view === 'join') {
     return (
       <div className="online-mode-selection">
-        <button onClick={() => setView('choice')} className="btn btn-secondary back-btn">
-          ← Back
-        </button>
+        <BackButton onClick={() => setView('choice')} />
         <h2>Join Lobby</h2>
         <form onSubmit={handleJoinLobby} className="lobby-form">
           <div className="form-group">
@@ -144,9 +141,7 @@ function OnlineModeSelection({ onCreateLobby, onJoinLobby, onBack, socketError }
 
   return (
     <div className="online-mode-selection">
-      <button onClick={onBack} className="btn btn-secondary back-btn">
-        ← Back
-      </button>
+      <BackButton onClick={onBack} />
       <h2>Play Online</h2>
       <div className="online-choice-buttons">
         <button 
