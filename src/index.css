@@ -624,7 +624,8 @@ body {
 
   .sidebar.collapsed .sidebar-header,
   .sidebar.collapsed .sidebar-nav,
-  .sidebar.collapsed .sidebar-footer {
+  .sidebar.collapsed .sidebar-footer,
+  .sidebar.collapsed .instagram-follow-collapsed {
     display: none;
   }
 

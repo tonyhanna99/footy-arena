@@ -3,6 +3,7 @@ import { Suspense } from 'react';
 import Sidebar from './Sidebar.jsx';
 import { Analytics } from '@vercel/analytics/react';
 import RouteSEO from './RouteSEO.jsx';
+import { InstagramBanner } from '../shared/components';
 
 function Layout() {
   return (
@@ -18,6 +19,7 @@ function Layout() {
                 <p className="connecting-message">Connecting you...</p>
               </div>
             }>
+              <InstagramBanner />
               <Outlet />
             </Suspense>
           </div>

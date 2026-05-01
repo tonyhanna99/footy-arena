@@ -1,0 +1,98 @@
+/* Instagram Follow Component */
+
+/* ── Collapsed (icon-only) ── */
+.instagram-follow-collapsed {
+  display: flex;
+  justify-content: center;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.instagram-follow-icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+  color: #fff;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  text-decoration: none;
+}
+
+.instagram-follow-icon-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(220, 39, 67, 0.45);
+}
+
+/* ── Expanded (full card) ── */
+.instagram-follow-card {
+  margin: 0 1rem 4rem;
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background-color: var(--bg);
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.instagram-follow-header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.instagram-follow-icon-link {
+  text-decoration: none;
+  display: flex;
+  flex-shrink: 0;
+}
+
+.instagram-follow-icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 9px;
+  background: linear-gradient(135deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+  color: #fff;
+  transition: transform 0.2s ease;
+}
+
+.instagram-follow-icon-link:hover .instagram-follow-icon-wrap {
+  transform: scale(1.08);
+}
+
+.instagram-follow-handle {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.instagram-follow-tagline {
+  font-size: 0.8rem;
+  color: var(--muted);
+  line-height: 1.45;
+  margin: 0;
+}
+
+.instagram-follow-btn {
+  display: block;
+  text-align: center;
+  padding: 0.55rem 0.75rem;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #fff;
+  text-decoration: none;
+  background: linear-gradient(135deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.instagram-follow-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
