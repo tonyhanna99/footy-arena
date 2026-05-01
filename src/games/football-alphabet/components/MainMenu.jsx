@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { GameHeader, ModeSelectionButtons } from '../../../shared/components';
+import { BackButton, GameHeader, ModeSelectionButtons } from '../../../shared/components';
 
 const MainMenu = ({ onCreateLobby, onJoinLobby, isConnected, lobbyError }) => {
   const [view, setView] = useState('choice'); // 'choice', 'create', or 'join'
@@ -66,9 +66,7 @@ const MainMenu = ({ onCreateLobby, onJoinLobby, isConnected, lobbyError }) => {
   if (view === 'create') {
     return (
       <div className="online-mode-selection">
-        <button onClick={() => setView('choice')} className="btn btn-secondary back-btn">
-          ← Back
-        </button>
+        <BackButton onClick={() => setView('choice')} />
         <GameHeader title="Create Lobby" />
         <form onSubmit={handleSubmit} className="lobby-form">
           <div className="form-group">
@@ -101,9 +99,7 @@ const MainMenu = ({ onCreateLobby, onJoinLobby, isConnected, lobbyError }) => {
   if (view === 'join') {
     return (
       <div className="online-mode-selection">
-        <button onClick={() => setView('choice')} className="btn btn-secondary back-btn">
-          ← Back
-        </button>
+        <BackButton onClick={() => setView('choice')} />
         <GameHeader title="Join Lobby" />
         <form onSubmit={handleSubmit} className="lobby-form">
           <div className="form-group">

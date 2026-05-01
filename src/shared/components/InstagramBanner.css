@@ -1,0 +1,79 @@
+/* Instagram footer — subtle top-of-page line */
+.ig-pill-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 0 1rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.ig-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  text-decoration: none;
+  color: var(--muted);
+  font-size: 0.78rem;
+  transition: color 0.2s;
+}
+
+.ig-pill:hover {
+  color: var(--text);
+}
+
+.ig-pill-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #f09433 0%, #dc2743 50%, #bc1888 100%);
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.ig-pill-handle {
+  font-weight: 600;
+  color: var(--text);
+}
+
+.ig-pill-sep {
+  opacity: 0.4;
+  flex-shrink: 0;
+}
+
+.ig-pill-tagline {
+  color: var(--muted);
+}
+
+.ig-pill-follow {
+  font-weight: 600;
+  color: #e6683c;
+  flex-shrink: 0;
+}
+
+@media (max-width: 480px) {
+  .ig-pill-tagline,
+  .ig-pill-sep {
+    display: none;
+  }
+}
+
+/* Hide some text on small screens to keep it single line */
+@media (max-width: 600px) {
+  .instagram-banner {
+    font-size: 0.78rem;
+    gap: 0.35rem;
+    padding: 0.5rem 0.75rem;
+  }
+
+  .instagram-banner-text:last-of-type {
+    display: none;
+  }
+
+  .instagram-banner-divider:last-of-type {
+    display: none;
+  }
+}

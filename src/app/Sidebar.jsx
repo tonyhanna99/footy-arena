@@ -1,6 +1,6 @@
 import { NavLink, Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { HamburgerMenu } from '../shared/components';
+import { HamburgerMenu, InstagramFollow } from '../shared/components';
 import { track } from '@vercel/analytics';
 
 const games = [
@@ -62,7 +62,11 @@ function Sidebar() {
           </div>
         )}
       </div>
-      
+
+      <div>
+        <InstagramFollow isExpanded={isExpanded} />
+      </div>
+
       <nav className="sidebar-nav">
         <ul>
           <li>

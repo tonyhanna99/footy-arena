@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { BackButton } from '../../../shared/components';
 
 function OnlineModeSelection({ onCreateLobby, onJoinLobby, onBack, error, onClearError }) {
   const [mode, setMode] = useState(null); // null, 'create', 'join'
@@ -40,11 +41,9 @@ function OnlineModeSelection({ onCreateLobby, onJoinLobby, onBack, error, onClea
   if (!mode) {
     return (
       <div className="online-mode-selection">
-        <button onClick={onBack} className="back-button">
-          ← Back
-        </button>
+        <BackButton onClick={onBack} />
 
-        <h2>Online Mode</h2>
+        <h2>Play Online</h2>
         <p className="mode-description">
           Create a lobby or join your friend's game
         </p>
@@ -74,9 +73,7 @@ function OnlineModeSelection({ onCreateLobby, onJoinLobby, onBack, error, onClea
 
   return (
     <div className="online-mode-selection">
-      <button onClick={() => setMode(null)} className="back-button">
-        ← Back
-      </button>
+      <BackButton onClick={() => setMode(null)} />
 
       <h2>{mode === 'create' ? 'Create Lobby' : 'Join Lobby'}</h2>
 

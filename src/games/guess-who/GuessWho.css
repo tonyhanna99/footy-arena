@@ -121,21 +121,6 @@
   padding: 40px 20px;
 }
 
-.back-button {
-  background: transparent;
-  border: none;
-  color: var(--muted);
-  cursor: pointer;
-  font-size: 1rem;
-  margin-bottom: 20px;
-  padding: 8px 12px;
-  transition: color 0.2s;
-}
-
-.back-button:hover {
-  color: var(--accent);
-}
-
 .online-options {
   display: flex;
   flex-direction: column;

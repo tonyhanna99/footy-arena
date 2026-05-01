@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 
+import { BackButton } from '../../../shared/components';
+
 function SetupForm({ settings, onStartRound, validateSettings, onBack }) {
   const [formData, setFormData] = useState({
     count: settings.count,
@@ -106,12 +108,9 @@ function SetupForm({ settings, onStartRound, validateSettings, onBack }) {
   };
 
   return (
-    <div className="card">
-      {onBack && (
-        <button onClick={onBack} className="btn btn-secondary back-btn" style={{ marginBottom: '2rem' }}>
-          ← Back
-        </button>
-      )}
+    <>
+      {onBack && <BackButton onClick={onBack} />}
+      <div className="card">
       <div className="card-header">
         <h2 className="card-title">Game Setup</h2>
         <p className="card-description">
@@ -188,6 +187,7 @@ function SetupForm({ settings, onStartRound, validateSettings, onBack }) {
         </button>
       </form>
     </div>
+    </>
   );
 }
 
