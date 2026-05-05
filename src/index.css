@@ -36,7 +36,7 @@ body {
 /* Layout */
 .app-layout {
   display: flex;
-  height: 100vh;
+  height: 100dvh; /* dvh accounts for iOS Safari address bar show/hide */
   overflow: hidden;
 }
 
@@ -198,6 +198,7 @@ body {
 .content-area {
   flex: 1;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch; /* iOS Safari momentum scrolling */
   padding: 2rem;
 }
 
