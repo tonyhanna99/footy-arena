@@ -43,7 +43,7 @@ function Sidebar() {
   };
 
   return (
-    <div className={`sidebar ${isExpanded ? 'expanded' : 'collapsed'}`} style={{ position: 'relative' }}>
+    <div className={`sidebar ${isExpanded ? 'expanded' : 'collapsed'}`}>
       {/* Hamburger Menu Button */}
       <HamburgerMenu isExpanded={isExpanded} onClick={toggleSidebar} />
 
@@ -51,7 +51,7 @@ function Sidebar() {
         {isExpanded ? (
           <div style={{ display: 'flex', justifyContent: 'center', padding: '1rem 0' }}>
             <Link to="/" style={{ display: 'block', cursor: 'pointer' }}>
-              <img src="/logo.png" alt="FootyArena" style={{ height: '15rem', width: 'auto' }} />
+              <img src="/logo.png" alt="FootyArena" style={{ height: '8rem', width: 'auto' }} />
             </Link>
           </div>
         ) : (

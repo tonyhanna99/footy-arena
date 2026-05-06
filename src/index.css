@@ -640,9 +640,7 @@ body {
     z-index: 1000;
     background-color: var(--surface);
     border-right: none;
-    overflow-y: scroll;
-    -webkit-overflow-scrolling: touch;
-    touch-action: pan-y;
+    overflow: hidden;
   }
 
   /* Add backdrop overlay effect */
@@ -662,9 +660,8 @@ body {
   }
 
   .sidebar.expanded .sidebar-nav {
-    padding: 2rem 1rem;
-    margin-top: -4rem;
-    flex: 0 0 auto; /* Don't stretch to fill — let content define height so sidebar overflows */
+    padding: 1rem;
+    margin-top: -2rem;
   }
 
   .sidebar.expanded .sidebar-nav ul {
