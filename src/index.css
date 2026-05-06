@@ -100,6 +100,17 @@ body {
   padding: 1.5rem;
 }
 
+.sidebar.expanded .sidebar-header {
+  padding: 0;
+}
+
+.sidebar-header-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 3.5rem 1rem 1rem; /* top clears the fixed hamburger button */
+}
+
 .sidebar-header h1 {
   font-size: 1.5rem;
   font-weight: 700;
@@ -640,7 +651,8 @@ body {
     z-index: 1000;
     background-color: var(--surface);
     border-right: none;
-    overflow: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   /* Add backdrop overlay effect */
@@ -656,7 +668,7 @@ body {
   }
 
   .sidebar.expanded .sidebar-header {
-    padding: 1.5rem;
+    padding: 1.5rem 1.5rem 0;
   }
 
   .sidebar.expanded .sidebar-nav {
@@ -673,8 +685,8 @@ body {
   }
 
   .sidebar.expanded .sidebar-nav a {
-    padding: 1rem 1.5rem;
-    font-size: 1.25rem;
+    padding: 0.75rem 1.5rem;
+    font-size: 1.1rem;
     font-weight: 500;
     border-radius: 0;
     text-align: left;

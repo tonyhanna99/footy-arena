@@ -48,19 +48,11 @@ function Sidebar() {
       <HamburgerMenu isExpanded={isExpanded} onClick={toggleSidebar} />
 
       <div className="sidebar-header">
-        {isExpanded ? (
-          <div style={{ display: 'flex', justifyContent: 'center', padding: '1rem 0' }}>
-            <Link to="/" style={{ display: 'block', cursor: 'pointer' }}>
-              <img src="/logo.png" alt="FootyArena" style={{ height: '8rem', width: 'auto' }} />
-            </Link>
-          </div>
-        ) : (
-          <div style={{ display: 'flex', justifyContent: 'center', padding: '1rem 0' }}>
-            <Link to="/" style={{ display: 'block', cursor: 'pointer' }}>
-              <img src="/logo.png" alt="FootyArena" style={{ height: '5rem', width: 'auto' }} />
-            </Link>
-          </div>
-        )}
+        <div style={{ display: 'flex', justifyContent: 'center', padding: isExpanded ? '2.5rem 0 0' : '1rem 0' }}>
+          <Link to="/" onClick={handleNavClick} style={{ display: 'block', cursor: 'pointer' }}>
+            <img src="/logo.png" alt="FootyArena" style={{ height: isExpanded ? '5rem' : '5rem', width: 'auto' }} />
+          </Link>
+        </div>
       </div>
 
       <div>

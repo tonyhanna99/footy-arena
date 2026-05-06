@@ -19,7 +19,7 @@ function InstagramIcon({ size = 24 }) {
   );
 }
 
-function InstagramFollow({ isExpanded }) {
+function InstagramFollow({ isExpanded, compact }) {
   if (!isExpanded) {
     return (
       <div className="instagram-follow-collapsed">
@@ -32,6 +32,28 @@ function InstagramFollow({ isExpanded }) {
           aria-label="Follow us on Instagram"
         >
           <InstagramIcon size={22} />
+        </a>
+      </div>
+    );
+  }
+
+  if (compact) {
+    return (
+      <div className="instagram-follow-compact">
+        <div className="instagram-follow-compact-top">
+          <span className="instagram-follow-icon-wrap" style={{ width: 28, height: 28 }}>
+            <InstagramIcon size={16} />
+          </span>
+          <span className="instagram-follow-handle">@playfootyarena</span>
+        </div>
+        <a
+          href={INSTAGRAM_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="instagram-follow-btn"
+          aria-label="Follow us on Instagram"
+        >
+          Follow on Instagram
         </a>
       </div>
     );
@@ -53,9 +75,6 @@ function InstagramFollow({ isExpanded }) {
         </a>
         <span className="instagram-follow-handle">@playfootyarena</span>
       </div>
-      <p className="instagram-follow-tagline">
-        Follow us for "We've asked 100 people…" polls, new games &amp; updates!
-      </p>
       <a
         href={INSTAGRAM_URL}
         target="_blank"
