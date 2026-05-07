@@ -1,12 +1,14 @@
+require('dotenv').config();
 const express = require('express');
 const http = require('http');
 const { Server } = require('socket.io');
+const { createClient } = require('@supabase/supabase-js');
 
 // Import Football Alphabet dependencies
 const { FOOTBALL_CATEGORIES, AVAILABLE_LETTERS, GAME_SETTINGS } = require('./football-alphabet/categories');
 
-// Import Football Imposter/Guess Who player data
-const FOOTBALL_PLAYERS = require('./football-imposter/players.json');
+// In-memory player cache — populated from Supabase at startup
+let cachedPlayers = [];
 
 const app = express();
 const server = http.createServer(app);
@@ -19,6 +21,25 @@ const allowedOrigins = [
   'https://www.footyarena.com', // Production with www
   'https://footy-arena-*.vercel.app', // Vercel preview deployments
 ];
+
+// CORS middleware for REST endpoints
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
+  if (origin) {
+    const isAllowed = allowedOrigins.some(pattern => {
+      if (pattern.includes('*')) {
+        const regex = new RegExp('^' + pattern.replace('*', '.*') + '$');
+        return regex.test(origin);
+      }
+      return pattern === origin;
+    });
+    if (isAllowed) {
+      res.setHeader('Access-Control-Allow-Origin', origin);
+      res.setHeader('Access-Control-Allow-Methods', 'GET');
+    }
+  }
+  next();
+});
 
 const io = new Server(server, {
   cors: {
@@ -193,7 +214,7 @@ function generateLobbyCode() {
 }
 
 function getRandomFootballer() {
-  return FOOTBALL_PLAYERS[Math.floor(Math.random() * FOOTBALL_PLAYERS.length)];
+  return cachedPlayers[Math.floor(Math.random() * cachedPlayers.length)];
 }
 
 function shuffleArray(array) {
@@ -709,7 +730,8 @@ io.on('connection', (socket) => {
       if (lobby.status === 'in_progress' && player.role) {
         socket.emit('roleAssigned', {
           role: player.role,
-          footballer: player.role === 'crew' ? lobby.footballer : null
+          footballer: player.role === 'crew' ? lobby.footballer : null,
+          footballerImage: player.role === 'crew' ? lobby.footballerImage : null,
         });
       }
       
@@ -801,7 +823,9 @@ io.on('connection', (socket) => {
     
     const footballerObj = getRandomFootballer();
     const footballer = footballerObj.name;
+    const footballerImage = footballerObj.image || null;
     lobby.footballer = footballer;
+    lobby.footballerImage = footballerImage;
     
     console.log(`Starting imposter game in ${code} with ${imposterCount} imposter(s)`);
     console.log(`Selected footballer: ${footballer}`);
@@ -816,7 +840,8 @@ io.on('connection', (socket) => {
       io.to(player.socketId).emit('roleAssigned', {
         role: player.role,
         lobbyCode: code,
-        footballer: player.role === 'crewmate' ? footballer : null
+        footballer: player.role === 'crewmate' ? footballer : null,
+        footballerImage: player.role === 'crewmate' ? footballerImage : null,
       });
     }
     
@@ -1009,7 +1034,7 @@ io.on('connection', (socket) => {
       return;
     }
 
-    const allPlayers = shuffleArray(FOOTBALL_PLAYERS);
+    const allPlayers = shuffleArray(cachedPlayers);
     const selectedPlayers = allPlayers.slice(0, 24);
     lobby.sharedPlayerList = selectedPlayers;
 
@@ -1107,7 +1132,7 @@ io.on('connection', (socket) => {
       player.hasSelected = false;
     });
 
-    const allPlayers = shuffleArray(FOOTBALL_PLAYERS);
+    const allPlayers = shuffleArray(cachedPlayers);
     const selectedPlayers = allPlayers.slice(0, 24);
     lobby.sharedPlayerList = selectedPlayers;
 
@@ -1310,7 +1335,7 @@ app.get('/health', (req, res) => {
     },
     timestamp: new Date().toISOString(),
     activeLobbies: Object.keys(lobbies).length,
-    totalPlayers: FOOTBALL_PLAYERS.length,
+    totalPlayers: cachedPlayers.length,
     activeSockets: io.sockets.sockets.size
   });
 });
@@ -1319,11 +1344,44 @@ app.get('/ping', (req, res) => {
   res.status(200).send('pong');
 });
 
-// Start the server
-server.listen(PORT, () => {
-  console.log(`🚀 Footy Arena Unified Server running on port ${PORT}`);
-  console.log(`📡 Socket.IO ready for all games:`);
-  console.log(`   - Football Alphabet`);
-  console.log(`   - Football Imposter`);
-  console.log(`   - Football Guess Who`);
+// ============================================
+// PLAYERS API ENDPOINT
+// ============================================
+
+app.get('/api/players', (req, res) => {
+  res.json(cachedPlayers);
 });
+
+// ============================================
+// START SERVER
+// ============================================
+
+async function initServer() {
+  const supabase = createClient(
+    process.env.SUPABASE_URL,
+    process.env.SUPABASE_SERVICE_KEY
+  );
+
+  console.log('Fetching players from Supabase...');
+  const { data, error } = await supabase
+    .from('players')
+    .select('name, photo');
+
+  if (error) {
+    console.error('Failed to fetch players from Supabase:', error.message);
+    process.exit(1);
+  }
+
+  cachedPlayers = data.map(p => ({ name: p.name, image: p.photo }));
+  console.log(`Loaded ${cachedPlayers.length} players from Supabase`);
+
+  server.listen(PORT, () => {
+    console.log(`🚀 Footy Arena Unified Server running on port ${PORT}`);
+    console.log(`📡 Socket.IO ready for all games:`);
+    console.log(`   - Football Alphabet`);
+    console.log(`   - Football Imposter`);
+    console.log(`   - Football Guess Who`);
+  });
+}
+
+initServer();

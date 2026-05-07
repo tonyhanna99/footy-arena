@@ -43,8 +43,23 @@ function RevealModal({ player, reveal, onClose, onMarkRevealed }) {
               </>
             ) : (
               <>
+                {reveal.image && (
+                  <img
+                    src={reveal.image}
+                    alt={reveal.word}
+                    style={{
+                      width: '140px',
+                      height: '140px',
+                      borderRadius: '50%',
+                      objectFit: 'cover',
+                      objectPosition: 'top',
+                      marginBottom: '0.75rem',
+                      border: '3px solid #3b82f6',
+                    }}
+                  />
+                )}
                 <div className="secret-word">{reveal.word}</div>
-                <div className="role-label">Secret Player</div>
+                <div className="role-label">SECRET PLAYER</div>
               </>
             )}
           </div>

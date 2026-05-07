@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
-import { FOOTBALL_PLAYERS } from '../data/players.js';
+
+const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || 'http://localhost:3000';
 
 const STORAGE_KEY = 'football-imposter-game';
 
@@ -49,6 +50,16 @@ export function useGame() {
   });
   const [roundId, setRoundId] = useState('');
   const [firstClueGiver, setFirstClueGiver] = useState(null);
+  const [footballPlayers, setFootballPlayers] = useState([]);
+  const [secretImage, setSecretImage] = useState('');
+
+  // Fetch player list from backend
+  useEffect(() => {
+    fetch(`${SOCKET_URL}/api/players`)
+      .then(res => res.json())
+      .then(data => setFootballPlayers(data))
+      .catch(err => console.warn('Failed to load players:', err));
+  }, []);
 
   // Load saved data from localStorage
   useEffect(() => {
@@ -97,7 +108,11 @@ export function useGame() {
 
     // Generate new round
     const newPlayers = assignRoles(filteredNames, imposters);
-    const newSecretWord = FOOTBALL_PLAYERS[getRandomIndex(FOOTBALL_PLAYERS)].name;
+    const picked = footballPlayers.length > 0
+      ? footballPlayers[getRandomIndex(footballPlayers)]
+      : null;
+    const newSecretWord = picked ? picked.name : '';
+    const newSecretImage = picked ? picked.image : '';
     const newRoundId = generateId();
     // Pick a random player to give the first clue
     const firstClueGiverIndex = getRandomIndex(newPlayers);
@@ -105,6 +120,7 @@ export function useGame() {
 
     setPlayers(newPlayers);
     setSecretWord(newSecretWord);
+    setSecretImage(newSecretImage);
     setSettings(newSettings);
     setRoundId(newRoundId);
     setFirstClueGiver(firstClueGiverId);
@@ -114,7 +130,7 @@ export function useGame() {
     saveToStorage(newSettings);
 
     return true;
-  }, [saveToStorage]);
+  }, [saveToStorage, footballPlayers]);
 
   const revealFor = useCallback((playerId) => {
     const player = players.find(p => p.id === playerId);
@@ -122,10 +138,11 @@ export function useGame() {
 
     return {
       word: player.role === 'crew' ? secretWord : null,
+      image: player.role === 'crew' ? secretImage : null,
       role: player.role,
       isImposter: player.role === 'imposter',
     };
-  }, [players, secretWord]);
+  }, [players, secretWord, secretImage]);
 
   const markRevealed = useCallback((playerId) => {
     setPlayers(prev => prev.map(player => 

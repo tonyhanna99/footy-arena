@@ -47,6 +47,7 @@ function Game() {
     lobby,
     myRole,
     footballer,
+    footballerImage,
     error,
     createLobby,
     joinLobby,
@@ -209,6 +210,7 @@ function Game() {
               lobby={lobby}
               myRole={myRole}
               footballer={footballer}
+              footballerImage={footballerImage}
               currentSocketId={socket?.id}
               onNewRound={handleOnlineNewRound}
               onBackToLobby={handleBackToLobby}
@@ -218,7 +220,7 @@ function Game() {
       )}
 
       {/* SEO Content Section */}
-      <section style={{ maxWidth: '640px', margin: '3rem auto 1rem', padding: '0 1rem' }}>
+      <section style={{ maxWidth: '640px', margin: '3rem auto 1rem', padding: '0 1rem', textAlign: 'center' }}>
         <h2 style={{ fontSize: '1.1rem', fontWeight: '700', marginBottom: '0.5rem' }}>What is Football Imposter?</h2>
         <p style={{ marginBottom: '1.5rem', lineHeight: '1.6', color: 'var(--text-secondary, #aaa)' }}>
           Football Imposter is a football-themed social deduction party game. One or more players are secretly the imposters — they don't know the footballer everyone else is discussing. The crew must give clues about the footballer without making it too obvious, while the imposter tries to blend in and guess who it is before being exposed.
@@ -236,9 +238,9 @@ function Game() {
       </section>
 
       {/* Internal Links – More Football Games */}
-      <section style={{ maxWidth: '640px', margin: '2rem auto 3rem', padding: '0 1rem' }}>
+      <section style={{ maxWidth: '640px', margin: '2rem auto 3rem', padding: '0 1rem', textAlign: 'center' }}>
         <h2 style={{ fontSize: '1.1rem', fontWeight: '700', marginBottom: '1rem' }}>More Football Games</h2>
-        <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+        <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', justifyContent: 'center' }}>
           <Link
             to="/games/guess-who"
             style={{

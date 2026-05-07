@@ -5,7 +5,7 @@ function OnlineModeSelection({ onCreateLobby, onJoinLobby, onBack, error, onClea
   const [mode, setMode] = useState(null); // null, 'create', 'join'
   const [name, setName] = useState('');
   const [lobbyCode, setLobbyCode] = useState('');
-  const [autoJoinCode, setAutoJoinCode] = useState('');
+  const [cameFromLink, setCameFromLink] = useState(false);
 
   // Check for ?join= URL parameter
   useEffect(() => {
@@ -13,9 +13,11 @@ function OnlineModeSelection({ onCreateLobby, onJoinLobby, onBack, error, onClea
     const joinCode = urlParams.get('join');
     
     if (joinCode) {
-      setAutoJoinCode(joinCode.toUpperCase());
       setLobbyCode(joinCode.toUpperCase());
+      setCameFromLink(true);
       setMode('join');
+      // Clean up URL so it doesn't persist on back/re-visit
+      window.history.replaceState({}, '', window.location.pathname);
     }
   }, []);
 
@@ -105,13 +107,15 @@ function OnlineModeSelection({ onCreateLobby, onJoinLobby, onBack, error, onClea
               type="text"
               id="code"
               value={lobbyCode}
-              onChange={(e) => setLobbyCode(e.target.value.toUpperCase())}
+              onChange={(e) => {
+                setLobbyCode(e.target.value.toUpperCase());
+                setCameFromLink(false);
+              }}
               placeholder="Enter 5-character code"
               maxLength={5}
               className="form-input lobby-code-input"
-              disabled={!!autoJoinCode}
             />
-            {autoJoinCode && (
+            {cameFromLink && (
               <div className="auto-join-notice">
                 ✓ Joining lobby from invite link
               </div>
