@@ -10,6 +10,7 @@ export function useSocket(shouldConnect = false) {
   const [lobby, setLobby] = useState(null);
   const [myRole, setMyRole] = useState(null);
   const [footballer, setFootballer] = useState(null);
+  const [footballerImage, setFootballerImage] = useState(null);
   const [error, setError] = useState(null);
   const socketRef = useRef(null);
 
@@ -72,6 +73,7 @@ export function useSocket(shouldConnect = false) {
       
       setMyRole(data.role);
       setFootballer(data.footballer); // Will be null for imposters
+      setFootballerImage(data.footballerImage || null);
     });
 
     socketInstance.on('hostChanged', (data) => {
@@ -178,6 +180,7 @@ export function useSocket(shouldConnect = false) {
     lobby,
     myRole,
     footballer,
+    footballerImage,
     error,
     createLobby,
     joinLobby,

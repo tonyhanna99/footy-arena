@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import RevealModal from './RevealModal.jsx';
 
-function OnlineGameplay({ lobby, myRole, footballer, currentSocketId, onNewRound, onBackToLobby }) {
+function OnlineGameplay({ lobby, myRole, footballer, footballerImage, currentSocketId, onNewRound, onBackToLobby }) {
   const [showModal, setShowModal] = useState(false);
   const [hasRevealed, setHasRevealed] = useState(false);
 
@@ -32,7 +32,8 @@ function OnlineGameplay({ lobby, myRole, footballer, currentSocketId, onNewRound
   // Create reveal object for the modal
   const reveal = {
     isImposter: isImposter,
-    word: footballer // This is the footballer name for crew members (null for imposters)
+    word: footballer,
+    image: footballerImage,
   };
 
   const handlePlayerClick = () => {

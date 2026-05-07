@@ -6,7 +6,6 @@ import Home from './Home.jsx';
 // Lazy load game components
 const FootballImposterGame = lazy(() => import('../games/football-imposter/Game.jsx'));
 const GuessWhoGame = lazy(() => import('../games/guess-who/Game.jsx'));
-const PlayerReview = lazy(() => import('../games/guess-who/components/PlayerReview.jsx'));
 const FootballAlphabetGame = lazy(() => import('../games/football-alphabet/Game.jsx'));
 
 export const router = createBrowserRouter([
@@ -25,10 +24,6 @@ export const router = createBrowserRouter([
       {
         path: 'games/guess-who',
         element: <GuessWhoGame />,
-      },
-      {
-        path: 'games/guess-who/review-players',
-        element: <PlayerReview />,
       },
       {
         path: 'games/football-alphabet',

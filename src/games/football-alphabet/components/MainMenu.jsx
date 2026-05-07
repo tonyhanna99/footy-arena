@@ -14,6 +14,8 @@ const MainMenu = ({ onCreateLobby, onJoinLobby, isConnected, lobbyError }) => {
     if (joinCode) {
       setLobbyCode(joinCode.toUpperCase());
       setView('join');
+      // Clean up URL so it doesn't persist on back/re-visit
+      window.history.replaceState({}, '', window.location.pathname);
     }
   }, []);
 
