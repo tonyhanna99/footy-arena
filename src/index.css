@@ -1584,7 +1584,7 @@ body {
 .game-instructions {
   background-color: var(--surface);
   border-radius: 0.5rem;
-  padding: 1.5rem;
+  padding: 1rem;
   margin-bottom: 2rem;
 }
 
@@ -1593,12 +1593,14 @@ body {
 }
 
 .game-instructions ol {
-  margin-left: 1.5rem;
+  margin-left: 1rem;
+  padding-left: 0.5rem;
   color: var(--muted);
 }
 
 .game-instructions li {
   margin-bottom: 0.5rem;
+  padding-right: 0.25rem;
 }
 
 .game-actions {
