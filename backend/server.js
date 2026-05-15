@@ -1350,7 +1350,7 @@ app.get('/ping', (req, res) => {
 });
 
 app.get('/ping-db', async (req, res) => {
-  const { error } = await supabase.from('players').select('count').limit(1);
+  const { error } = await supabase.from('players').select('*', { count: 'exact', head: true });
   if (error) {
     return res.status(500).json({ status: 'error', message: error.message });
   }
