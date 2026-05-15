@@ -10,6 +10,11 @@ const { FOOTBALL_CATEGORIES, AVAILABLE_LETTERS, GAME_SETTINGS } = require('./foo
 // In-memory player cache — populated from Supabase at startup
 let cachedPlayers = [];
 
+const supabase = createClient(
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_SERVICE_KEY
+);
+
 const app = express();
 const server = http.createServer(app);
 
@@ -1344,6 +1349,14 @@ app.get('/ping', (req, res) => {
   res.status(200).send('pong');
 });
 
+app.get('/ping-db', async (req, res) => {
+  const { error } = await supabase.from('players').select('count').limit(1);
+  if (error) {
+    return res.status(500).json({ status: 'error', message: error.message });
+  }
+  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+});
+
 // ============================================
 // PLAYERS API ENDPOINT
 // ============================================
@@ -1357,11 +1370,6 @@ app.get('/api/players', (req, res) => {
 // ============================================
 
 async function initServer() {
-  const supabase = createClient(
-    process.env.SUPABASE_URL,
-    process.env.SUPABASE_SERVICE_KEY
-  );
-
   console.log('Fetching players from Supabase...');
   const { data, error } = await supabase
     .from('players')
